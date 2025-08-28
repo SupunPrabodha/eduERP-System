@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 
 const app = express();
 
+//connect to database
 mongoose
     .connect(mongoDBURL)
     .then(() => {
