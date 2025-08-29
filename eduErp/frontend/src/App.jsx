@@ -8,7 +8,7 @@ function App() {
 
   return (
     <>
-      
+      <p class="font-bold underline">Hello</p>
     </>
   )
 }
