@@ -41,4 +41,21 @@ const addStaff = async (req, res) => {
     }
 };
 
-module.exports = { getAllStaff, addStaff };
+// Delete Staff Member
+const deleteStaff = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const staff = await Staff.findByIdAndDelete(id);
+
+        if (!staff) {
+            return res.status(404).json({ message: "Staff member not found" });
+        }
+
+        return res.status(200).json({ message: "Staff member deleted successfully" });
+    } catch (err) {
+        console.error("Error deleting staff member:", err);
+        return res.status(500).json({ message: "Error deleting staff member", error: err.message });
+    }
+};
+
+module.exports = { getAllStaff, addStaff, deleteStaff };

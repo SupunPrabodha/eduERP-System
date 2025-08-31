@@ -1,28 +1,68 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const DisplayStaff = () => {
   const [staff, setStaff] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
+
+  const fetchStaff = async () => {
+    setLoading(true);
+    setError("");
+    try {
+  const res = await axios.get("http://localhost:5555/staff");
+      setStaff(res.data.staffM || []);
+    } catch (err) {
+      setError(
+        err.response?.data?.message || "Failed to fetch staff. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchStaff = async () => {
-      try {
-        const res = await fetch('http://localhost:5000/staff');
-        const data = await res.json();
-        if (res.ok) {
-          setStaff(data.staffM || []);
-        } else {
-          setError(data.message || 'Failed to fetch staff');
-        }
-      } catch (err) {
-        setError('Server error');
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchStaff();
   }, []);
+
+  const handleDelete = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.delete(`http://localhost:5555/staff/${id}`);
+          Swal.fire("Deleted!", "Staff member has been deleted.", "success");
+          fetchStaff();
+        } catch (err) {
+          Swal.fire(
+            "Error!",
+            err.response?.data?.message || "Failed to delete staff member.",
+            "error"
+          );
+        }
+      }
+    });
+  };
+
+  const tableStyles = {
+    actionButton: {
+      padding: "6px 12px",
+      backgroundColor: "#d33",
+      color: "#fff",
+      border: "none",
+      borderRadius: "4px",
+      cursor: "pointer",
+      fontWeight: "bold",
+    },
+  };
 
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded shadow">
@@ -47,6 +87,7 @@ const DisplayStaff = () => {
                 <th className="py-2 px-4 border">Status</th>
                 <th className="py-2 px-4 border">Address</th>
                 <th className="py-2 px-4 border">Salary</th>
+                <th className="py-2 px-4 border">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -61,6 +102,14 @@ const DisplayStaff = () => {
                   <td className="py-2 px-4 border">{s.status}</td>
                   <td className="py-2 px-4 border">{s.address}</td>
                   <td className="py-2 px-4 border">{s.salary}</td>
+                  <td className="py-2 px-4 border text-center">
+                    <button
+                      style={tableStyles.actionButton}
+                      onClick={() => handleDelete(s._id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>

@@ -22,7 +22,7 @@ const AddStaff = () => {
     e.preventDefault();
     setMessage('');
     try {
-      const res = await fetch('http://localhost:5000/staff', {
+  const res = await fetch('http://localhost:5555/staff', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)
