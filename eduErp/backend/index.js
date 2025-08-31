@@ -12,6 +12,8 @@ app.use(cors());
 //         allowedHeaders: ['Content-Type']
 //     })
 // );
+
+
 //connect to database
 mongoose
     .connect(mongoDBURL)
