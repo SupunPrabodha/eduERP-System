@@ -1,21 +1,25 @@
 import express from "express";
+import cors from "cors";
 import { PORT, mongoDBURL } from "./config.js";
 import mongoose from 'mongoose';
+import loginRoute from './routes/loginRoutes.js';
 
 const app = express();
 
+// Middleware
 app.use(cors());
-// app.use(
-//     cors({
-//         origin: 'http://localhost:3000',
-//         methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//         allowedHeaders: ['Content-Type']
-//     })
-// );
-//connect to database
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use('/login', loginRoute);
+// Routes
+app.use('/api/auth', loginRoute);
 
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.json({ status: 'OK', message: 'Server is running' });
+});
+
+// Connect to database
 mongoose
     .connect(mongoDBURL)
     .then(() => {
@@ -26,5 +30,4 @@ mongoose
     })
     .catch((error) => {
         console.log(error);
-        
     })

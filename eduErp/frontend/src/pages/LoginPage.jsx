@@ -1,6 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
+import authService from '../services/authService.js';
 
 const LoginPage = () => {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    setError(''); // Clear error when user types
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError('');
+
+    try {
+      const response = await authService.login(formData.email, formData.password);
+      if (response.success) {
+        // Redirect to dashboard or home page
+        window.location.href = '/dashboard';
+      }
+    } catch (error) {
+      setError(error.message || 'Login failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-blue">
       {/* Decorative gradient waves background */}
@@ -48,8 +83,15 @@ const LoginPage = () => {
 
           <h1 className="mb-6 text-2xl font-semibold text-slate-800">Welcome back!</h1>
 
+          {/* Error Message */}
+          {error && (
+            <div className="mb-4 rounded-lg bg-red-50 border border-red-200 p-3">
+              <p className="text-sm text-red-600">{error}</p>
+            </div>
+          )}
+
           {/* Form */}
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleLogin}>
             <div>
               <label className="mb-1 block text-sm font-medium text-slate-700">
                 Email Address
@@ -57,8 +99,12 @@ const LoginPage = () => {
               <div className="relative">
                 <input
                   type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
                   placeholder="example@email.com"
                   className="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 pr-11 text-slate-800 outline-none ring-indigo-200 transition focus:ring-4"
+                  required
                 />
                 <span className="pointer-events-none absolute inset-y-0 right-0 mr-3 flex items-center text-slate-400">
                   {/* Mail icon */}
@@ -84,8 +130,12 @@ const LoginPage = () => {
               <div className="relative">
                 <input
                   type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
                   placeholder="Enter your password"
                   className="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 pr-11 text-slate-800 outline-none ring-indigo-200 transition focus:ring-4"
+                  required
                 />
                 <span className="pointer-events-none absolute inset-y-0 right-0 mr-3 flex items-center text-slate-400">
                   {/* Lock icon */}
@@ -106,23 +156,10 @@ const LoginPage = () => {
 
             <button
               type="submit"
-              className="mt-2 w-full rounded-lg bg-indigo-700 px-4 py-3 font-medium text-white shadow hover:bg-indigo-800 focus:outline-none focus:ring-4 focus:ring-indigo-300"
+              disabled={isLoading}
+              className="mt-2 w-full rounded-lg bg-indigo-700 px-4 py-3 font-medium text-white shadow hover:bg-indigo-800 focus:outline-none focus:ring-4 focus:ring-indigo-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Login Now
-            </button>
-
-            <div className="flex items-center gap-2">
-              <div className="h-px flex-1 bg-slate-200" />
-              <span className="text-xs text-slate-500">OR</span>
-              <div className="h-px flex-1 bg-slate-200" />
-            </div>
-
-            <button
-              type="button"
-              className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-indigo-200"
-              onClick={() => alert("Sign up action")}
-            >
-              Signup Now
+              {isLoading ? 'Processing...' : 'Login Now'}
             </button>
           </form>
         </div>
