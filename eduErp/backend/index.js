@@ -13,6 +13,9 @@ app.use(cors());
 //     })
 // );
 //connect to database
+
+app.use('/login', loginRoute);
+
 mongoose
     .connect(mongoDBURL)
     .then(() => {
