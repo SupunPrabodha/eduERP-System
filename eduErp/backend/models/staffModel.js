@@ -1,3 +1,4 @@
+
 const mongoose = require("mongoose");
 
 const staffSchema = new mongoose.Schema(
@@ -49,20 +50,10 @@ const staffSchema = new mongoose.Schema(
       required: true,
       default: 0, // Admin assigns salary, employees cannot modify it
     },
-    epf: {
-      type: Number,
-      required: true,
-      default: 0, // Automatically calculated as 8% of salary
-    },
-    etf: {
-      type: Number,
-      required: true,
-      default: 0, // Automatically calculated as 3% of salary
-    },
   },
   { timestamps: true } // Adds createdAt and updatedAt timestamps
 );
 
-const Staff = mongoose.model("Staff", staffSchema);
 
+const Staff = mongoose.model("Staff", staffSchema);
 module.exports = Staff;

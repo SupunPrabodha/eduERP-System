@@ -1,18 +1,18 @@
-import express from "express";
-import { PORT, mongoDBURL } from "./config.js";
-import mongoose from 'mongoose';
+const express = require("express");
+const { PORT, mongoDBURL } = require("./config.js");
+const mongoose = require('mongoose');
+const cors = require('cors');
 
 const app = express();
 
 app.use(cors());
-// app.use(
-//     cors({
-//         origin: 'http://localhost:3000',
-//         methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//         allowedHeaders: ['Content-Type']
-//     })
-// );
+app.use(express.json());
 
+// Importing Routes
+const staffRoutes = require('./routes/staffRoutes.js');
+
+// Mounting routes
+app.use('/staff', staffRoutes);
 
 //connect to database
 mongoose
@@ -26,4 +26,4 @@ mongoose
     .catch((error) => {
         console.log(error);
         
-    })
+    });
