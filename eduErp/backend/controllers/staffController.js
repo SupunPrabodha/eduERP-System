@@ -58,4 +58,27 @@ const deleteStaff = async (req, res) => {
     }
 };
 
-module.exports = { getAllStaff, addStaff, deleteStaff };
+// Update Staff Member
+const updateStaff = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const updateData = { ...req.body };
+
+        const staff = await Staff.findByIdAndUpdate(
+            id,
+            { ...updateData, updatedAt: Date.now() },
+            { new: true, runValidators: true }
+        );
+
+        if (!staff) {
+            return res.status(404).json({ message: "Staff member not found" });
+        }
+
+        return res.status(200).json({ staff });
+    } catch (err) {
+        console.error("Error updating staff member:", err);
+        return res.status(500).json({ message: "Error updating staff member", error: err.message });
+    }
+};
+
+module.exports = { getAllStaff, addStaff, deleteStaff, updateStaff };

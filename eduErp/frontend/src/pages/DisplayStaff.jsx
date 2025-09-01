@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const DisplayStaff = () => {
   const [staff, setStaff] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
+  
+  const handleEditNavigate = (id) => {
+    navigate(`/update-staff/${id}`);
+  };
 
   const fetchStaff = async () => {
     setLoading(true);
@@ -103,6 +109,12 @@ const DisplayStaff = () => {
                   <td className="py-2 px-4 border">{s.address}</td>
                   <td className="py-2 px-4 border">{s.salary}</td>
                   <td className="py-2 px-4 border text-center">
+                    <button
+                      style={{ ...tableStyles.actionButton, backgroundColor: '#3085d6', marginRight: 4 }}
+                      onClick={() => handleEditNavigate(s._id)}
+                    >
+                      Edit
+                    </button>
                     <button
                       style={tableStyles.actionButton}
                       onClick={() => handleDelete(s._id)}
