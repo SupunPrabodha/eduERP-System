@@ -4,7 +4,7 @@ const AddStaff = () => {
   const [form, setForm] = useState({
     employeeid: '',
     name: '',
-    age: '',
+    dob: '',
     department: '',
     email: '',
     mobile: '',
@@ -31,7 +31,7 @@ const AddStaff = () => {
       if (res.ok) {
         setMessage('Staff member added successfully!');
         setForm({
-          employeeid: '', name: '', age: '', department: '', email: '', mobile: '', status: '', address: '', salary: ''
+          employeeid: '', name: '', dob: '', department: '', email: '', mobile: '', status: '', address: '', salary: ''
         });
       } else {
         setMessage(data.message || 'Error adding staff member');
@@ -47,9 +47,9 @@ const AddStaff = () => {
       <form onSubmit={handleSubmit} className="space-y-4">
         {Object.keys(form).map((key) => (
           <div key={key}>
-            <label className="block text-gray-700 capitalize mb-1">{key}</label>
+            <label className="block text-gray-700 capitalize mb-1">{key === 'dob' ? 'Date of Birth' : key}</label>
             <input
-              type={key === 'age' || key === 'salary' ? 'number' : 'text'}
+              type={key === 'dob' ? 'date' : key === 'salary' ? 'number' : 'text'}
               name={key}
               value={form[key]}
               onChange={handleChange}

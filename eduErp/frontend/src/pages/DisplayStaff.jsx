@@ -86,12 +86,10 @@ const DisplayStaff = () => {
               <tr className="bg-gray-100">
                 <th className="py-2 px-4 border">Employee ID</th>
                 <th className="py-2 px-4 border">Name</th>
-                <th className="py-2 px-4 border">Age</th>
                 <th className="py-2 px-4 border">Department</th>
                 <th className="py-2 px-4 border">Email</th>
                 <th className="py-2 px-4 border">Mobile</th>
                 <th className="py-2 px-4 border">Status</th>
-                <th className="py-2 px-4 border">Address</th>
                 <th className="py-2 px-4 border">Salary</th>
                 <th className="py-2 px-4 border">Action</th>
               </tr>
@@ -101,12 +99,10 @@ const DisplayStaff = () => {
                 <tr key={s._id} className="hover:bg-gray-50">
                   <td className="py-2 px-4 border">{s.employeeid}</td>
                   <td className="py-2 px-4 border">{s.name}</td>
-                  <td className="py-2 px-4 border">{s.age}</td>
                   <td className="py-2 px-4 border">{s.department}</td>
                   <td className="py-2 px-4 border">{s.email}</td>
                   <td className="py-2 px-4 border">{s.mobile}</td>
                   <td className="py-2 px-4 border">{s.status}</td>
-                  <td className="py-2 px-4 border">{s.address}</td>
                   <td className="py-2 px-4 border">{s.salary}</td>
                   <td className="py-2 px-4 border text-center">
                     <button

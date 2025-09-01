@@ -19,12 +19,12 @@ const getAllStaff = async (req, res, next) => {
 // Add Staff Member
 const addStaff = async (req, res) => {
     try {
-        const { employeeid, name, age, department, email, mobile, status, address, salary } = req.body;
+        const { employeeid, name, dob, department, email, mobile, status, address, salary } = req.body;
 
         const staff = new Staff({
             employeeid,
             name,
-            age,
+            dob,
             department,
             email,
             mobile,

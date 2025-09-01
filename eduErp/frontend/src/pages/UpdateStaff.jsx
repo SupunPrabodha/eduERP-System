@@ -9,7 +9,7 @@ const UpdateStaff = () => {
   const [form, setForm] = useState({
     employeeid: "",
     name: "",
-    age: "",
+    dob: "",
     department: "",
     email: "",
     mobile: "",
@@ -31,7 +31,7 @@ const UpdateStaff = () => {
         setForm({
           employeeid: staff.employeeid || "",
           name: staff.name || "",
-          age: staff.age || "",
+          dob: staff.dob ? staff.dob.split('T')[0] : "",
           department: staff.department || "",
           email: staff.email || "",
           mobile: staff.mobile || "",
@@ -86,8 +86,8 @@ const UpdateStaff = () => {
             <input name="name" value={form.name} onChange={handleChange} className="border px-2 py-1 w-full" required />
           </div>
           <div>
-            <label className="block font-semibold">Age</label>
-            <input name="age" value={form.age} onChange={handleChange} className="border px-2 py-1 w-full" required />
+            <label className="block font-semibold">Date of Birth</label>
+            <input type="date" name="dob" value={form.dob} onChange={handleChange} className="border px-2 py-1 w-full" required />
           </div>
           <div>
             <label className="block font-semibold">Department</label>

@@ -1,0 +1,70 @@
+/* LeaveForm.css */
+
+.leave-form {
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-radius: 0.5rem;
+  padding: 2rem 2rem 2rem 2rem;
+  width: 100%;
+  max-width: 28rem;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.leave-form-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #1e293b;
+  text-align: center;
+}
+
+.leave-form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.leave-form-label {
+  color: #334155;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.leave-form-input {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.leave-form-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px #60a5fa33;
+}
+
+.leave-form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.leave-form-submit {
+  width: 100%;
+  background: #2563eb;
+  color: #fff;
+  font-weight: 700;
+  padding: 0.75rem 0;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.leave-form-submit:hover {
+  background: #1d4ed8;
+}

@@ -13,19 +13,13 @@ const staffSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    age: {
-      type: Number,
+    dob: {
+      type: Date,
       required: true,
     },
     department: {
       type: String,
-      required: true,
-      enum: [
-        "Sales",
-        "Inventory",
-        "Customer Support",
-        "Operation Management",
-      ], // Predefined department values
+      required: true, 
     },
     email: {
       type: String,
@@ -38,8 +32,8 @@ const staffSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["Active", "Vacation", "On Leave"], // Allowed status values
-      default: "Active", // Default employee status
+      enum: ["Active", "Vacation", "On Leave"],
+      default: "Active", 
     },
     address: {
       type: String,
@@ -48,7 +42,7 @@ const staffSchema = new mongoose.Schema(
     salary: {
       type: Number,
       required: true,
-      default: 0, // Admin assigns salary, employees cannot modify it
+      default: 0, 
     },
   },
   { timestamps: true } // Adds createdAt and updatedAt timestamps
