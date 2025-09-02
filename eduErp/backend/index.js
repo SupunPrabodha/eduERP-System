@@ -19,7 +19,6 @@ const staffRoutes = require('./routes/staffRoutes.js');
 const leaveRoutes = require('./routes/leaveRoutes.js');
 const loginRoute = require('./routes/loginRoutes.js');
 const adminRoute = require('./routes/adminRoutes.js');
->>>>>>> d99783ed5803b178d9e17e1c62eaf7d54eebab22
 
 // Mounting routes
 app.use('/staff', staffRoutes);
