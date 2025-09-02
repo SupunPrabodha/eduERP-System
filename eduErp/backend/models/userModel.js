@@ -59,49 +59,6 @@ const userSchema = new mongoose.Schema({
   isActive: {
     type: Boolean,
     default: true
-  },
-  leaveBalance: {
-    annual: {
-      entitled: {
-        type: Number,
-        required: true,
-        min: 0
-      },
-      used: {
-        type: Number,
-        default: 0,
-        min: 0
-      }
-    },
-    sick: {
-      entitled: {
-        type: Number,
-        required: true,
-        min: 0
-      },
-      used: {
-        type: Number,
-        default: 0,
-        min: 0
-      }
-    },
-    casual: {
-      entitled: {
-        type: Number,
-        require: true,
-        min: 0
-      },
-      used: {
-        type: Number,
-        default: 0,
-        min: 0
-      }
-    },
-    duty: {
-      type: Number,
-      default: 0,
-      min: 0
-    }
   }
 }, {
   timestamps: true
