@@ -1,9 +1,7 @@
-
 import express from "express";
 import cors from "cors";
 import { PORT, mongoDBURL } from "./config.js";
-const mongoose = require('mongoose');
-const cors = require('cors');
+import mongoose from "mongoose";
 
 const app = express();
 
@@ -15,10 +13,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Importing Routes
-const staffRoutes = require('./routes/staffRoutes.js');
-const leaveRoutes = require('./routes/leaveRoutes.js');
-const loginRoute = require('./routes/loginRoutes.js');
-const adminRoute = require('./routes/adminRoutes.js');
+import staffRoutes from "./routes/staffRoutes.js";
+import leaveRoutes from "./routes/leaveRoutes.js";
+import loginRoute from "./routes/loginRoutes.js";
+import adminRoute from "./routes/adminRoutes.js";
 
 // Mounting routes
 app.use('/staff', staffRoutes);

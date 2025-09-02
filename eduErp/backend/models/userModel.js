@@ -107,10 +107,6 @@ const userSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Create indexes for better performance
-userSchema.index({ userId: 1 });
-userSchema.index({ email: 1 });
-
 const User = mongoose.model('User', userSchema);
 
 export default User;
