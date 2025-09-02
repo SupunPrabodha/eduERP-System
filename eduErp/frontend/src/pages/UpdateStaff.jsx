@@ -58,7 +58,7 @@ const UpdateStaff = () => {
     try {
       await axios.put(`http://localhost:5555/staff/${id}`, form);
       Swal.fire("Updated!", "Staff member has been updated.", "success");
-      navigate("/");
+      navigate("/staff/all");
     } catch (err) {
       Swal.fire(
         "Error!",

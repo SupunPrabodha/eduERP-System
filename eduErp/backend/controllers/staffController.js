@@ -1,8 +1,7 @@
-
-const Staff = require("../models/staffModel.js");
+import Staff from "../models/staffModel.js";
 
 // Display All Staff Members
-const getAllStaff = async (req, res, next) => {
+export const getAllStaff = async (req, res, next) => {
     let staffM;
     try {
         staffM = await Staff.find();
@@ -17,7 +16,7 @@ const getAllStaff = async (req, res, next) => {
 };
 
 // Add Staff Member
-const addStaff = async (req, res) => {
+export const addStaff = async (req, res) => {
     try {
         const { employeeid, name, dob, department, email, mobile, status, address, salary } = req.body;
 
@@ -42,7 +41,7 @@ const addStaff = async (req, res) => {
 };
 
 // Delete Staff Member
-const deleteStaff = async (req, res) => {
+export const deleteStaff = async (req, res) => {
     try {
         const id = req.params.id;
         const staff = await Staff.findByIdAndDelete(id);
@@ -59,7 +58,7 @@ const deleteStaff = async (req, res) => {
 };
 
 // Update Staff Member
-const updateStaff = async (req, res) => {
+export const updateStaff = async (req, res) => {
     try {
         const id = req.params.id;
         const updateData = { ...req.body };
@@ -81,4 +80,3 @@ const updateStaff = async (req, res) => {
     }
 };
 
-module.exports = { getAllStaff, addStaff, deleteStaff, updateStaff };

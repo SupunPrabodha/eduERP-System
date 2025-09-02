@@ -10,7 +10,7 @@ const DisplayStaff = () => {
   const navigate = useNavigate();
   
   const handleEditNavigate = (id) => {
-    navigate(`/update-staff/${id}`);
+    navigate(`/staff/update/${id}`);
   };
 
   const fetchStaff = async () => {
