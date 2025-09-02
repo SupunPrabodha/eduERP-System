@@ -8,17 +8,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-
 // Importing Routes
 const staffRoutes = require('./routes/staffRoutes.js');
 const leaveRoutes = require('./routes/leaveRoutes.js');
-
 
 // Mounting routes
 app.use('/staff', staffRoutes);
 app.use('/api/leaves', leaveRoutes);
 
-//connect to database
 mongoose
     .connect(mongoDBURL)
     .then(() => {

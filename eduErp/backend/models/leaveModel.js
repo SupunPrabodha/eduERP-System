@@ -1,5 +1,3 @@
-// leaveModel.js
-// Mongoose model for Leave
 const mongoose = require("mongoose");
 
 const leaveSchema = new mongoose.Schema(
