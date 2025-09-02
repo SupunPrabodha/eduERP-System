@@ -3,6 +3,7 @@ import cors from "cors";
 import { PORT, mongoDBURL } from "./config.js";
 import mongoose from 'mongoose';
 import loginRoute from './routes/loginRoutes.js';
+import adminRoute from './routes/adminRoutes.js';
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/auth', loginRoute);
+app.use('/api/admin', adminRoute);
 
 // Health check endpoint
 app.get('/health', (req, res) => {

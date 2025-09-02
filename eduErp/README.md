@@ -4,7 +4,7 @@ A comprehensive educational ERP system with JWT-based authentication, featuring 
 
 ## Features
 
-- 🔐 **JWT Authentication**: Secure token-based authentication
+- 🔐 **JWT Authentication**: Secure token-based authentication using User ID
 - 👥 **Role-based Access Control**: Different interfaces for students, teachers, and admins
 - 🔒 **Password Hashing**: Secure password storage using bcrypt
 - 🎨 **Modern UI**: Beautiful, responsive design with Tailwind CSS
@@ -81,9 +81,10 @@ eduErp/
    npm run create-test-user
    ```
    This creates a test user with:
-   - Email: `test@example.com`
+   - User ID: `ADMIN001`
    - Password: `password123`
-   - Role: `admin`
+   - Role: `ADMIN`
+   - Email: `admin@eduERP.com`
 
 5. **Start the server:**
    ```bash
@@ -125,7 +126,7 @@ eduErp/
 ```json
 POST /api/auth/login
 {
-  "email": "test@example.com",
+  "userId": "ADMIN001",
   "password": "password123"
 }
 ```
@@ -138,9 +139,10 @@ POST /api/auth/login
   "data": {
     "user": {
       "id": "user_id",
-      "email": "test@example.com",
-      "name": "Test User",
-      "role": "admin"
+      "userId": "ADMIN001",
+      "email": "admin@eduERP.com",
+      "name": "Admin User",
+      "role": "ADMIN"
     },
     "token": "jwt_token_here"
   }
@@ -166,6 +168,21 @@ POST /api/auth/login
 - Grade viewing
 - Schedule access
 - Assignment submission
+
+### Principle
+- Administrative oversight
+- Staff management
+- Academic planning
+
+### Academic Staff
+- Academic support
+- Course coordination
+- Student services
+
+### Non-Academic Staff
+- Administrative support
+- Facility management
+- Student services
 
 ## Security Features
 
@@ -199,7 +216,7 @@ JWT_EXPIRES_IN=24h
    router.get('/protected', authenticateToken, yourController);
    
    // Route with role-based access
-   router.get('/admin-only', authenticateToken, authorizeRole('admin'), adminController);
+   router.get('/admin-only', authenticateToken, authorizeRole('ADMIN'), adminController);
    ```
 
 2. **Update frontend service:**
@@ -217,14 +234,14 @@ JWT_EXPIRES_IN=24h
    ```javascript
    role: {
      type: String,
-     enum: ['admin', 'teacher', 'student', 'new_role'],
-     default: 'student'
+     enum: ['ADMIN', 'TEACHER', 'STUDENT', 'PRINCIPLE', 'NON-ACADEMIC STAFF', 'ACADEMIC STAFF', 'NEW_ROLE'],
+     required: true
    }
    ```
 
 2. **Update frontend components:**
    ```javascript
-   {user?.role === 'new_role' && (
+   {user?.role === 'NEW_ROLE' && (
      // Role-specific content
    )}
    ```

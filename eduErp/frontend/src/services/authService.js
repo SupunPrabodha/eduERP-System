@@ -40,9 +40,9 @@ api.interceptors.response.use(
 // Authentication service
 export const authService = {
   // Login user
-  login: async (email, password) => {
+  login: async (userId, password) => {
     try {
-      const response = await api.post('/auth/login', { email, password });
+      const response = await api.post('/auth/login', { userId, password });
       if (response.data.success) {
         localStorage.setItem('token', response.data.data.token);
         localStorage.setItem('user', JSON.stringify(response.data.data.user));

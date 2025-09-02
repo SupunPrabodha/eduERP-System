@@ -6,22 +6,22 @@ import { JWT_SECRET, JWT_EXPIRES_IN } from '../config.js';
 // Login user
 export const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { userId, password } = req.body;
 
     // Validate input
-    if (!email || !password) {
+    if (!userId || !password) {
       return res.status(400).json({
         success: false,
-        message: 'Email and password are required'
+        message: 'User ID and password are required'
       });
     }
 
-    // Find user by email
-    const user = await User.findOne({ email });
+    // Find user by userId
+    const user = await User.findOne({ userId });
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid email or password'
+        message: 'Invalid User ID or password'
       });
     }
 
@@ -38,7 +38,7 @@ export const login = async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid email or password'
+        message: 'Invalid User ID or password'
       });
     }
 
@@ -46,6 +46,7 @@ export const login = async (req, res) => {
     const token = jwt.sign(
       { 
         userId: user._id, 
+        userLoginId: user.userId,
         email: user.email, 
         role: user.role 
       },
@@ -59,8 +60,9 @@ export const login = async (req, res) => {
       data: {
         user: {
           id: user._id,
+          userId: user.userId,
           email: user.email,
-          name: user.name,
+          name: `${user.profile.firstName} ${user.profile.lastName}`,
           role: user.role
         },
         token
