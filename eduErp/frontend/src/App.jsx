@@ -9,6 +9,7 @@ import UpdateStaff from './pages/UpdateStaff'
 import LeaveForm from './pages/LeaveForm'
 import LeaveList from './pages/LeaveList'
 
+
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = authService.isAuthenticated();
