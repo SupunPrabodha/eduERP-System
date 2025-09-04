@@ -14,7 +14,7 @@
 export const emailConfig = {
   service: 'gmail',
   auth: {
-    user: process.env.EMAIL_USER || 'your-email@gmail.com',
+    user: process.env.EMAIL_USER || 'gayantha8631@gmail.com',
     pass: process.env.EMAIL_PASS || 'your-app-password'
   }
 };

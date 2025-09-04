@@ -47,7 +47,7 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-neutral-100">
       {/* Header */}
       <header className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -127,10 +127,15 @@ const AdminDashboard = () => {
                       </div>
                     </div>
                   </button>
-                  <div className="bg-indigo-50 p-4 rounded-lg">
+                  <button
+                    onClick={"#"}
+                    className="bg-indigo-50 p-4 rounded-lg hover:bg-indigo-100 transition-colors text-left">
+                    <div className="bg-indigo-50 p-4 rounded-lg">
                     <h3 className="font-medium text-indigo-900">Manage Users</h3>
                     <p className="text-sm text-indigo-700 mt-1">View, edit, or remove users</p>
                   </div>
+                  </button>
+                  
                   <div className="bg-indigo-50 p-4 rounded-lg">
                     <h3 className="font-medium text-indigo-900">System Settings</h3>
                     <p className="text-sm text-indigo-700 mt-1">Configure system parameters</p>
@@ -144,8 +149,8 @@ const AdminDashboard = () => {
                     <p className="text-sm text-indigo-700 mt-1">View user statistics</p>
                   </div>
                   <div className="bg-indigo-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-indigo-900">Audit Logs</h3>
-                    <p className="text-sm text-indigo-700 mt-1">View system activity logs</p>
+                    <h3 className="font-medium text-indigo-900">Inventory</h3>
+                    <p className="text-sm text-indigo-700 mt-1">Manage inventory</p>
                   </div>
                 </>
               )}

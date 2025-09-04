@@ -3,7 +3,7 @@ import { emailConfig, frontendUrl } from '../config/email.js';
 
 // Create transporter using Gmail SMTP
 const createTransporter = () => {
-  return nodemailer.createTransporter(emailConfig);
+  return nodemailer.createTransport(emailConfig);
 };
 
 // Send credentials email to new user
