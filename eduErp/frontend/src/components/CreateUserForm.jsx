@@ -1,7 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import userService from '../services/userService.js';
+import studentService from '../services/studentService.js';
+import teacherService from '../services/teacherService.js';
+import { useRef } from 'react';
+
+const SECTION_OPTIONS = [
+  "Primary",
+  "Secondary",
+  "Art",
+  "Commerce",
+  "Maths",
+  "Science",
+  "Technology"
+];
+
+const TEACHER_SECTION_OPTIONS = [
+  "Primary",
+  "Secondary",
+  "Advance level"
+];
 
 const CreateUserForm = ({ onClose, onUserCreated }) => {
+  const topRef = useRef(null);
   const [formData, setFormData] = useState({
     email: '',
     phone: '',
@@ -15,10 +35,21 @@ const CreateUserForm = ({ onClose, onUserCreated }) => {
     },
     remarks: ''
   });
+  const [admissionNo, setAdmissionNo] = useState('');
+  const [grade, setGrade] = useState('');
+  const [section, setSection] = useState(SECTION_OPTIONS[0]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [nextUserId, setNextUserId] = useState('');
+
+  const [teacherSubjects, setTeacherSubjects] = useState([]);
+  const [subjectInput, setSubjectInput] = useState('');
+  const [teacherSection, setTeacherSection] = useState(TEACHER_SECTION_OPTIONS[0]);
+  const [joinDate, setJoinDate] = useState('');
+  const [qualification, setQualification] = useState('');
+  const [experience, setExperience] = useState('');
+  
 
   const roleOptions = [
     { value: 'ADMIN', label: 'Admin' },
@@ -34,11 +65,42 @@ const CreateUserForm = ({ onClose, onUserCreated }) => {
     { value: 'Female', label: 'Female' }
   ];
 
+  // Add subject to subjects array
+  const handleAddSubject = () => {
+    if (subjectInput.trim()) {
+      setTeacherSubjects([...teacherSubjects, subjectInput.trim()]);
+      setSubjectInput('');
+    }
+  };
+
+  // Remove subject
+  const handleRemoveSubject = (index) => {
+    setTeacherSubjects(teacherSubjects.filter((_, i) => i !== index));
+  };
+
   // Get next user ID when role changes
   useEffect(() => {
     if (formData.role) {
       getNextUserId(formData.role);
     }
+
+    const fetchNextAdmissionNo = async () => {
+      try {
+        const response = await studentService.getNextAdmissionNo();
+        const nextNo = response.nextAdmissionNo;
+        setAdmissionNo(nextNo);
+      } catch (error) {
+        console.error('Error fetching next admission number:', error);
+        setAdmissionNo('');
+      }
+    }
+
+    if(formData.role === 'STUDENT'){
+      fetchNextAdmissionNo();
+    } else{
+      setAdmissionNo('');
+    }
+
   }, [formData.role]);
 
   const getNextUserId = async (role) => {
@@ -91,12 +153,42 @@ const CreateUserForm = ({ onClose, onUserCreated }) => {
 
     if (!validateForm()) {
       setIsLoading(false);
+      if(topRef.current) topRef.current.scrollIntoView({ behavior: 'smooth' });
       return;
     }
 
     try {
       const response = await userService.createUser(formData);
-      setSuccess(`User created successfully! User ID: ${response.data.user.userId}, Password: ${response.data.password}`);
+      const newUserId = response.data.user.id;
+      // console.log(response.data.user._id);
+      // console.log(response.data.user.userId);
+      console.log(response.data.user.id);
+      
+      
+      if (formData.role === 'STUDENT') {
+        // Create student record
+        await studentService.createStudent({
+          newUserId,
+          admissionNo,
+          grade,
+          section
+        });
+      }
+
+      // Teacher logic...
+      if (formData.role === 'TEACHER') {
+        await teacherService.createTeacher({
+          userId: newUserId,
+          subjects: teacherSubjects,
+          section: teacherSection,
+          joinDate,
+          qualification,
+          experience: Number(experience)
+        });
+      }
+      
+      setSuccess(`User created successfully! User ID: ${response.data.user.userId}`);
+      if(topRef.current) topRef.current.scrollIntoView({ behavior: 'smooth' });
       
       // Clear form
       setFormData({
@@ -125,6 +217,7 @@ const CreateUserForm = ({ onClose, onUserCreated }) => {
 
     } catch (error) {
       setError(error.message || 'Failed to create user');
+      if(topRef.current) topRef.current.scrollIntoView({ behavior: 'smooth' });
     } finally {
       setIsLoading(false);
     }
@@ -143,7 +236,7 @@ const CreateUserForm = ({ onClose, onUserCreated }) => {
       </div>
 
       {/* Modal container */}
-      <div className="relative min-h-screen flex items-center justify-center p-4">
+      <div className="relative min-h-screen flex items-center justify-center p-4 "ref={topRef}>
         <div className="relative w-full max-w-2xl">
           {/* Modal card with glass effect */}
           <div className="relative bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 overflow-hidden">
@@ -355,6 +448,145 @@ const CreateUserForm = ({ onClose, onUserCreated }) => {
                     placeholder="123 Main Street, City, Country"
                   />
                 </div>
+
+                {formData.role === 'STUDENT' && (
+                  <>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Admission Number:
+                    </label>
+                    <input
+                      type="text"
+                      value={admissionNo}
+                      onChange={(e) => setAdmissionNo(e.target.value)}
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                      placeholder="Enter Admission Number"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Grade:
+                    </label>
+                    <input
+                      type="text"
+                      value={grade}
+                      onChange={(e) => setGrade(e.target.value)}
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                      placeholder="Enter grade"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Section:
+                    </label>
+                    <select
+                      value={section}
+                      onChange={(e) => setSection(e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                      required
+                      >
+                        <option value="">Select Section</option>
+                        {SECTION_OPTIONS.map((opt) => (
+                          <option key={opt} value={opt}>{opt}</option>
+                        ))}
+                      </select>
+                  </div>
+                  </>
+                )}
+
+                {formData.role === 'TEACHER' && (
+                  <>
+                    {/* Subjects */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Subjects:
+                      </label>
+                      <div className="flex space-x-2 mb-2">
+                        <input
+                          type="text"
+                          value={subjectInput}
+                          onChange={e => setSubjectInput(e.target.value)}
+                          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg"
+                          placeholder="Enter subject"
+                        />
+                        <button type="button" onClick={handleAddSubject} className="px-6 py-3 bg-gradient-to-r from-sky-600 to-green-600 hover:from-sky-700 hover:to-green-700 text-white rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl">
+                          Add
+                        </button>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {teacherSubjects.map((subj, idx) => (
+                          <span key={idx} className="bg-gray-200 px-3 py-1 rounded-full flex items-center">
+                            {subj}
+                            <button type="button" onClick={() => handleRemoveSubject(idx)} className="ml-2 text-red-500">&times;</button>
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Section */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Section:
+                      </label>
+                      <select
+                        value={teacherSection}
+                        onChange={e => setTeacherSection(e.target.value)}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg"
+                        required
+                      >
+                        {TEACHER_SECTION_OPTIONS.map(opt => (
+                          <option key={opt} value={opt}>{opt}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Join Date */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Join Date:
+                      </label>
+                      <input
+                        type="date"
+                        value={joinDate}
+                        onChange={e => setJoinDate(e.target.value)}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg"
+                      />
+                    </div>
+
+                    {/* Qualification */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Qualification:
+                      </label>
+                      <textarea
+                        value={qualification}
+                        onChange={e => setQualification(e.target.value)}
+                        rows="2"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg"
+                        placeholder="e.g. MSc in Mathematics"
+                      />
+                    </div>
+
+                    {/* Experience */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Experience (years):
+                      </label>
+                      <input
+                        type="number"
+                        value={experience}
+                        onChange={e => setExperience(e.target.value)}
+                        min="0"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg"
+                        placeholder="Years of experience"
+                      />
+                    </div>
+                  </>
+                )}
 
                 {/* Remarks */}
                 <div>
