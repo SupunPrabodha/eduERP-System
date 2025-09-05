@@ -6,6 +6,7 @@ import GetAllUser from './pages/GetAllUser'
 import authService from './services/authService.js'
 import LeaveForm from './pages/LeaveForm'
 import LeaveList from './pages/LeaveList'
+import ManageLeave from './pages/ManageLeave';
 
 
 // Protected Route component
@@ -51,7 +52,8 @@ const App = () => {
     <Routes>
       <Route path='/' element={<Navigate to="/login" replace />} />
       <Route path='/leaves' element={<LeaveList />} />
-      <Route path='/leaves/apply' element={<LeaveForm />} />
+      <Route path='/leaves/apply' element={<LeaveForm />} />
+      <Route path='/manage-leave/:id' element={<ManageLeave />} />
       <Route path='/login' element={
         <PublicRoute>
           <LoginPage />

@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const LeaveList = () => {
   const [leaves, setLeaves] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchLeaves = async () => {
       try {
         const response = await axios.get('/api/leaves');
-  setLeaves(Array.isArray(response.data) ? response.data : response.data.leaves || []);
+        setLeaves(Array.isArray(response.data) ? response.data : response.data.leaves || []);
       } catch (err) {
         setError(err.response?.data?.error || 'Failed to fetch leaves');
       } finally {
@@ -86,7 +88,14 @@ const LeaveList = () => {
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{leave.fromDate ? new Date(leave.fromDate).toLocaleDateString() : '-'}</td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{leave.toDate ? new Date(leave.toDate).toLocaleDateString() : '-'}</td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{leave.createdAt ? new Date(leave.createdAt).toLocaleDateString() : '-'}</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Manage</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            <button
+                              className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded"
+                              onClick={() => navigate(`/manage-leave/${leave._id}`)}
+                            >
+                              Manage
+                            </button>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
