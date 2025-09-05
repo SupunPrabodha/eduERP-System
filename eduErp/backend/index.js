@@ -15,12 +15,12 @@ app.use(express.urlencoded({ extended: true }));
 // Importing Routes
 import leaveRoutes from "./routes/leaveRoutes.js";
 import loginRoute from "./routes/loginRoutes.js";
-import adminRoute from "./routes/adminRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 // Mounting routes
 app.use('/api/leaves', leaveRoutes);
 app.use('/api/auth', loginRoute);
-app.use('/api/admin', adminRoute);
+app.use('/api/admin', adminRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {

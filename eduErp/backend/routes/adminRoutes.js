@@ -1,10 +1,7 @@
 import express from 'express';
 import { 
   createUser, 
-  // getAllUsers, 
-  // getUserById, 
-  // updateUser, 
-  // deleteUser, 
+  getAllUsers,
   getNextUserId 
 } from '../controllers/adminController.js';
 import { authenticateToken, authorizeRole } from '../middleware/authMiddleware.js';
@@ -21,10 +18,7 @@ router.use(authorizeRole('ADMIN'));
 router.post('/users', createUser);
 router.post('/students', createStudent)
 router.post('/teachers', createTeacher);
-// router.get('/users', getAllUsers);
-// router.get('/users/:userId', getUserById);
-// router.put('/users/:userId', updateUser);
-// router.delete('/users/:userId', deleteUser);
+router.get('/users', getAllUsers);
 router.get('/users/next-id/:role', getNextUserId);
 
 router.get('/users/student/next-admission-no', getNextStudentAdmissionNo);

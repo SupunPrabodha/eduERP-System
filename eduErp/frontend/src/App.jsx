@@ -2,6 +2,7 @@ import React from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
 import AdminDashboard from './pages/AdminDashboard'
+import GetAllUser from './pages/GetAllUser'
 import authService from './services/authService.js'
 import LeaveForm from './pages/LeaveForm'
 import LeaveList from './pages/LeaveList'
@@ -59,6 +60,11 @@ const App = () => {
       <Route path='/admin' element={
         <AdminRoute>
           <AdminDashboard />
+        </AdminRoute>
+      } />
+      <Route path='/admin/users' element={
+        <AdminRoute>
+          <GetAllUser />
         </AdminRoute>
       } />
       <Route path='/dashboard' element={
