@@ -20,44 +20,84 @@ const LeaveList = () => {
     fetchLeaves();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div style={{ color: 'red' }}>{error}</div>;
-
-  return (
-    <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded shadow">
-      <h2 className="text-2xl font-bold mb-4">Leave Applications</h2>
-      {leaves.length === 0 ? (
-        <div>No leave applications found.</div>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-300">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="py-2 px-4 border">Name</th>
-                <th className="py-2 px-4 border">Leave Type</th>
-                <th className="py-2 px-4 border">From</th>
-                <th className="py-2 px-4 border">To</th>
-                <th className="py-2 px-4 border">Reason</th>
-                <th className="py-2 px-4 border">Created At</th>
-              </tr>
-            </thead>
-            <tbody>
-              {leaves.map((leave) => (
-                <tr key={leave._id} className="hover:bg-gray-50">
-                  <td className="py-2 px-4 border">{leave.name || '-'}</td>
-                  <td className="py-2 px-4 border">{leave.leaveType || '-'}</td>
-                  <td className="py-2 px-4 border">{leave.fromDate ? new Date(leave.fromDate).toLocaleDateString() : '-'}</td>
-                  <td className="py-2 px-4 border">{leave.toDate ? new Date(leave.toDate).toLocaleDateString() : '-'}</td>
-                  <td className="py-2 px-4 border">{leave.reason || '-'}</td>
-                  <td className="py-2 px-4 border">{leave.createdAt ? new Date(leave.createdAt).toLocaleDateString() : '-'}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading leave applications...</p>
         </div>
-      )}
-    </div>
-  );
+      </div>
+    );
+  }
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <p className="text-red-600 font-semibold">Error: {error}</p>
+        </div>
+      </div>
+    );
+  }
+
+    return (
+      <div className="min-h-screen bg-neutral-100">
+        <header className="bg-white shadow">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center py-6">
+              <div className="flex items-center">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600 text-white">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
+                    <path d="m9 18 6-12" />
+                    <path d="m7 8-4 4 4 4" />
+                    <path d="m17 8 4 4-4 4" />
+                  </svg>
+                </div>
+                <h1 className="ml-3 text-2xl font-semibold text-gray-900">Leave Applications</h1>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+          <div className="px-4 py-6 sm:px-0">
+            <div className="bg-white rounded-lg shadow p-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">Leave List</h2>
+              {leaves.length === 0 ? (
+                <p className="text-gray-600">No leave applications found.</p>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Leave Type</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">From</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">To</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {leaves.map((leave) => (
+                        <tr key={leave._id} className="hover:bg-indigo-50">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{leave.name || '-'}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{leave.leaveType || '-'}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{leave.fromDate ? new Date(leave.fromDate).toLocaleDateString() : '-'}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{leave.toDate ? new Date(leave.toDate).toLocaleDateString() : '-'}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{leave.createdAt ? new Date(leave.createdAt).toLocaleDateString() : '-'}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Manage</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          </div>
+        </main>
+      </div>
+    );
 };
 
 export default LeaveList;

@@ -154,6 +154,13 @@ const AdminDashboard = () => {
                     <h3 className="font-medium text-indigo-900">Inventory</h3>
                     <p className="text-sm text-indigo-700 mt-1">Manage inventory</p>
                   </div>
+                  <button
+                    onClick={() => navigate('/leaves')}
+                    className="bg-indigo-50 p-4 rounded-lg hover:bg-indigo-100 transition-colors text-left w-full"
+                  >
+                    <h3 className="font-medium text-indigo-900">Leave Application</h3>
+                    <p className="text-sm text-indigo-700 mt-1">Manage Leave Request</p>
+                  </button>
                 </>
               )}
               
