@@ -13,13 +13,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Importing Routes
-import staffRoutes from "./routes/staffRoutes.js";
 import leaveRoutes from "./routes/leaveRoutes.js";
 import loginRoute from "./routes/loginRoutes.js";
 import adminRoute from "./routes/adminRoutes.js";
 
 // Mounting routes
-app.use('/staff', staffRoutes);
 app.use('/api/leaves', leaveRoutes);
 app.use('/api/auth', loginRoute);
 app.use('/api/admin', adminRoute);
