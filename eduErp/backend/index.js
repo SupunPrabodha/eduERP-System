@@ -1,18 +1,32 @@
 import express from "express";
+import cors from "cors";
 import { PORT, mongoDBURL } from "./config.js";
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const app = express();
 
+// Middleware
 app.use(cors());
-// app.use(
-//     cors({
-//         origin: 'http://localhost:3000',
-//         methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//         allowedHeaders: ['Content-Type']
-//     })
-// );
-//connect to database
+app.use(express.json());
+
+
+app.use(express.urlencoded({ extended: true }));
+
+// Importing Routes
+import leaveRoutes from "./routes/leaveRoutes.js";
+import loginRoute from "./routes/loginRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
+
+// Mounting routes
+app.use('/api/leaves', leaveRoutes);
+app.use('/api/auth', loginRoute);
+app.use('/api/admin', adminRoutes);
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.json({ status: 'OK', message: 'Server is running' });
+});
+
 mongoose
     .connect(mongoDBURL)
     .then(() => {
@@ -24,4 +38,4 @@ mongoose
     .catch((error) => {
         console.log(error);
         
-    })
+    });
