@@ -78,9 +78,9 @@ const LeaveForm = () => {
                   className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                   required
                 >
-                  <option value="sick">Sick Leave</option>
-                  <option value="casual">Casual Leave</option>
-                  <option value="annual">Annual Leave</option>
+                  <option value="Medical Leave">Medical Leave</option>
+                  <option value="Casual Leave">Casual Leave</option>
+                  <option value="Maternity Leave">Maternity Leave</option>
                 </select>
               </div>
               <div className="flex gap-4">
