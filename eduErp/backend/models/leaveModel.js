@@ -8,7 +8,7 @@ const leaveSchema = new mongoose.Schema(
         },
         leaveType: {
             type: String,
-            enum: ["sick", "casual", "annual"],
+            enum: ["Medical Leave", "Casual Leave", "Maternity Leave", "Other"],
             required: true,
         },
         fromDate: { 
@@ -25,7 +25,7 @@ const leaveSchema = new mongoose.Schema(
         },
         status: { 
             type: String, 
-            default: "pending",
+            default: "Pending",
             required: true 
         },
         createdAt: { 

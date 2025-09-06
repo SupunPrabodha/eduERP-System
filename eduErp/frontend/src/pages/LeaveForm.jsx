@@ -81,6 +81,7 @@ const LeaveForm = () => {
                   <option value="Medical Leave">Medical Leave</option>
                   <option value="Casual Leave">Casual Leave</option>
                   <option value="Maternity Leave">Maternity Leave</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
               <div className="flex gap-4">

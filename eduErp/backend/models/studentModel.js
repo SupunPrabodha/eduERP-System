@@ -4,7 +4,7 @@ const studentSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // reference to users collection
+      ref: "User", 
       //required: true,
     },
     admissionNo: {
