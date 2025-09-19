@@ -30,7 +30,7 @@ const createAdmin = async () => {
       profile: {
         firstName: 'N/A',
         lastName: 'N/A',
-        dob: '2000-05-15',
+        dob: '2025-08-18',
         gender: 'Male',
         address: 'N/A',
       },
