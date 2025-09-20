@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import authService from '../services/authService.js';
 import CreateUserForm from '../components/CreateUserForm.jsx';
+import { FaUserCircle } from 'react-icons/fa';
 
 const AdminDashboard = () => {
   const [user, setUser] = useState(null);
@@ -74,6 +75,13 @@ const AdminDashboard = () => {
             <div className="flex items-center space-x-4">
               <span className="text-gray-700">Welcome, {user?.userId}</span>
               <button
+                onClick={() => navigate('/profile')}
+                className="focus:outline-none"
+                title="View Profile"
+              >
+                <FaUserCircle className="text-3xl text-indigo-700 hover:text-indigo-900 transition-colors" />
+              </button>
+              <button
                 onClick={handleLogout}
                 className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors"
               >
@@ -87,28 +95,6 @@ const AdminDashboard = () => {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
-          <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">User Information</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Name</label>
-                <p className="mt-1 text-sm text-gray-900">{user?.name}</p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Email</label>
-                <p className="mt-1 text-sm text-gray-900">{user?.email}</p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Role</label>
-                <p className="mt-1 text-sm text-gray-900 capitalize">{user?.role}</p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">User ID</label>
-                  
-                <p className="mt-1 text-sm text-gray-900">{user?.userId}</p>
-              </div>
-            </div>
-          </div>
 
           {/* Role-based content */}
           <div className="mt-6 bg-white rounded-lg shadow p-6">

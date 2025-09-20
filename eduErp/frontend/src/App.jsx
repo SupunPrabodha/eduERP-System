@@ -9,6 +9,7 @@ import GetAllUser from './pages/GetAllUser'
 import AddInventory from './pages/AddInventory'
 import GetAllInventory from './pages/GetAllInventory'
 import authService from './services/authService.js'
+import UserProfilePage from './pages/UserProfilePage'
 import LeaveForm from './pages/LeaveForm'
 import LeaveList from './pages/LeaveList'
 import ManageLeave from './pages/ManageLeave';
@@ -94,7 +95,8 @@ const App = () => {
           <TeacherDashboard />
         </ProtectedRoute>
       } />
-      <Route path='/reset-password' element={<ResetPasswordPage />} />
+  <Route path='/reset-password' element={<ResetPasswordPage />} />
+  <Route path='/profile' element={<UserProfilePage />} />
     </Routes>
   )
 }
