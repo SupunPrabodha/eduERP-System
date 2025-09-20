@@ -4,17 +4,22 @@ const teacherSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // link to users collection
+      ref: "User", 
       required: true,
+    },
+    nic: {
+      type: String,
+      required: true,
+      unique: true
     },
     subjects: [
       {
-        type: String, // Example: "Mathematics", "Physics"
+        type: String,
         trim: true,
       },
     ],
     section: {
-      type: String, // Example: "Senior Lecturer", "Assistant Teacher"
+      type: String,
       enum: ["Primary","Secondary","Advance level"],
       trim: true,
     },
@@ -23,11 +28,11 @@ const teacherSchema = new mongoose.Schema(
       default: Date.now,
     },
     qualification: {
-      type: String, // Example: "MSc in Mathematics"
+      type: String, 
       trim: true,
     },
     experience: {
-      type: Number, // years of experience
+      type: Number, 
       default: 0,
     },
     // leaveBalance: {

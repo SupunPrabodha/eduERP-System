@@ -1,13 +1,14 @@
 import React from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
+import ResetPasswordPage from './pages/ResetPasswordPage'
 import AdminDashboard from './pages/AdminDashboard'
+import TeacherDashboard from './pages/TeacherDashboard'
+import GetAllUser from './pages/GetAllUser'
 import authService from './services/authService.js'
-import AddStaff from './pages/AddStaff'
-import DisplayStaff from './pages/DisplayStaff'
-import UpdateStaff from './pages/UpdateStaff'
 import LeaveForm from './pages/LeaveForm'
 import LeaveList from './pages/LeaveList'
+import ManageLeave from './pages/ManageLeave';
 
 
 // Protected Route component
@@ -52,11 +53,9 @@ const App = () => {
   return (
     <Routes>
       <Route path='/' element={<Navigate to="/login" replace />} />
-      <Route path='/staff/all' element={<DisplayStaff />} />
-      <Route path='/staff/add' element={<AddStaff />} />
-      <Route path='/staff/update/:id' element={<UpdateStaff />} />
       <Route path='/leaves' element={<LeaveList />} />
-      <Route path='/leaves/apply' element={<LeaveForm />} />
+      <Route path='/leaves/apply' element={<LeaveForm />} />
+      <Route path='/manage-leave/:id' element={<ManageLeave />} />
       <Route path='/login' element={
         <PublicRoute>
           <LoginPage />
@@ -67,8 +66,14 @@ const App = () => {
           <AdminDashboard />
         </AdminRoute>
       } />
+      <Route path='/admin/users' element={
+        <AdminRoute>
+          <GetAllUser />
+        </AdminRoute>
+      } />
       <Route path='/dashboard' element={
         <ProtectedRoute>
+          {/* Default dashboard for non-admin users, can redirect based on role if needed */}
           <div className="min-h-screen flex items-center justify-center bg-gray-50">
             <div className="text-center">
               <h1 className="text-2xl font-semibold text-gray-900 mb-4">Dashboard</h1>
@@ -77,6 +82,14 @@ const App = () => {
           </div>
         </ProtectedRoute>
       } />
+
+      {/* Teacher Dashboard route */}
+      <Route path='/teacher-dashboard' element={
+        <ProtectedRoute>
+          <TeacherDashboard />
+        </ProtectedRoute>
+      } />
+      <Route path='/reset-password' element={<ResetPasswordPage />} />
     </Routes>
   )
 }

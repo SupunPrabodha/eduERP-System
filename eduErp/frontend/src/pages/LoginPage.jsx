@@ -82,7 +82,13 @@ const LoginPage = () => {
         // Clear any error before navigating
         setError('');
         // Navigate without full reload
-        navigate(user.role === 'ADMIN' ? '/admin' : '/dashboard', { replace: true });
+        if (user.role === 'ADMIN') {
+          navigate('/admin', { replace: true });
+        } else if (user.role === 'TEACHER') {
+          navigate('/teacher-dashboard', { replace: true });
+        } else {
+          navigate('/dashboard', { replace: true });
+        }
         return;
       }
 
@@ -217,7 +223,13 @@ const LoginPage = () => {
                 </button>
               </form>
 
-              <div className="mt-8 pt-6 border-t border-gray-200">
+              <div className="mt-8 pt-6 border-t border-gray-200 flex flex-col items-center">
+                <a
+                  href="/reset-password"
+                  className="text-sky-600 hover:underline font-medium mb-2"
+                >
+                  Change password
+                </a>
                 <p className="text-center text-sm text-gray-500">
                   Secure access to eduERP system
                 </p>

@@ -1,5 +1,5 @@
 import express from 'express';
-import { login, getProfile, logout } from '../controllers/loginController.js';
+import { login, getProfile, logout, resetPassword } from '../controllers/loginController.js';
 import { authenticateToken } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -7,6 +7,7 @@ const router = express.Router();
 // Public routes
 router.post('/login', login);
 router.post('/logout', logout);
+router.post('/reset-password', resetPassword);
 
 // Protected routes
 router.get('/profile', authenticateToken, getProfile);
