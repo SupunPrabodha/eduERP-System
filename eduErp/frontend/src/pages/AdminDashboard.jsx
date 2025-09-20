@@ -118,7 +118,7 @@ const AdminDashboard = () => {
                 <>
                   <button
                     onClick={handleCreateUser}
-                    className="bg-indigo-50 p-4 rounded-lg hover:bg-indigo-100 transition-colors text-left"
+                    className="bg-indigo-50 p-4 rounded-lg hover:bg-indigo-100 transition-colors text-left w-full"
                   >
                     <div className="flex items-center">
                       <svg className="h-8 w-8 text-indigo-600 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -132,7 +132,7 @@ const AdminDashboard = () => {
                   </button>
                   <button
                     onClick={() => navigate('/admin/inventory/add')}
-                    className="bg-indigo-50 p-4 rounded-lg hover:bg-indigo-100 transition-colors text-left"
+                    className="bg-indigo-50 p-4 rounded-lg hover:bg-indigo-100 transition-colors text-left w-full"
                   >
                     <div className="flex items-center">
                       <svg className="h-8 w-8 text-green-600 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -144,17 +144,8 @@ const AdminDashboard = () => {
                       </div>
                     </div>
                   </button>
-                  <button
-                    onClick={() => navigate('/admin/users')}
-                    className="bg-indigo-50 p-4 rounded-lg hover:bg-indigo-100 transition-colors text-left">
-                    <div className="bg-indigo-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-indigo-900">Manage Users</h3>
-                    <p className="text-sm text-indigo-700 mt-1">View, edit, or remove users</p>
-                  </div>
-                  </button>
-                  
                   <button onClick={() => navigate('/admin/payroll')}
-                    className="bg-indigo-50 p-4 rounded-lg hover:bg-indigo-100 transition-colors text-left"
+                    className="bg-indigo-50 p-4 rounded-lg hover:bg-indigo-100 transition-colors text-left w-full"
                   >
                     <div className="flex items-center">
                       <svg className="h-8 w-8 text-indigo-600 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -166,7 +157,13 @@ const AdminDashboard = () => {
                       </div>
                     </div>
                   </button>
-                  <div className="bg-indigo-50 p-4 rounded-lg">
+                  <button
+                    onClick={() => navigate('/admin/users')}
+                    className="bg-indigo-50 p-4 rounded-lg hover:bg-indigo-100 transition-colors text-left w-full"
+                  >
+                    <h3 className="font-medium text-indigo-900">Manage Users</h3>
+                    <p className="text-sm text-indigo-700 mt-1">View, edit, or remove users</p>
+                  </button>
                   <button
                     onClick={() => navigate('/admin/inventory')}
                     className="bg-indigo-50 p-4 rounded-lg hover:bg-indigo-100 transition-colors text-left w-full"
