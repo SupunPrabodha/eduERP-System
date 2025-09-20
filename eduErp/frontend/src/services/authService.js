@@ -13,7 +13,7 @@ const api = axios.create({
 // Add request interceptor to include auth token
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -29,8 +29,8 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
+          sessionStorage.removeItem('token');
+          sessionStorage.removeItem('user');
       window.location.href = '/login';
     }
     return Promise.reject(error);
@@ -44,8 +44,8 @@ export const authService = {
     try {
       const response = await api.post('/auth/login', { userId, password });
       if (response.data.success) {
-        localStorage.setItem('token', response.data.data.token);
-        localStorage.setItem('user', JSON.stringify(response.data.data.user));
+            sessionStorage.setItem('token', response.data.data.token);
+            sessionStorage.setItem('user', JSON.stringify(response.data.data.user));
       }
       return response.data;
     } catch (error) {
@@ -60,8 +60,8 @@ export const authService = {
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
+          sessionStorage.removeItem('token');
+          sessionStorage.removeItem('user');
     }
   },
 
@@ -77,19 +77,19 @@ export const authService = {
 
   // Check if user is authenticated
   isAuthenticated: () => {
-    const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
     return !!token;
   },
 
   // Get current user from localStorage
   getCurrentUser: () => {
-    const user = localStorage.getItem('user');
+        const user = sessionStorage.getItem('user');
     return user ? JSON.parse(user) : null;
   },
 
   // Get token from localStorage
   getToken: () => {
-    return localStorage.getItem('token');
+        return sessionStorage.getItem('token');
   },
 
   // Reset password
