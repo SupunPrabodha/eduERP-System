@@ -19,7 +19,7 @@ const TeacherDashboard = () => {
 
   const handleLogout = async () => {
     await authService.logout();
-    window.location.href = '/login';
+    window.location.href = '/';
   };
 
   if (loading) {

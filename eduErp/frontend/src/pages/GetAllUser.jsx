@@ -18,7 +18,7 @@ const GetAllUser = () => {
     // Remove auth info (customize as needed)
     localStorage.removeItem('token');
     localStorage.removeItem('username');
-    window.location.href = '/login';
+    window.location.href = '/';
   };
 
   useEffect(() => {
