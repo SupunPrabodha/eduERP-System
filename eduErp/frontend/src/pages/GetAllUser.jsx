@@ -5,6 +5,21 @@ const GetAllUser = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  // Search and filter states
+  const [searchTerm, setSearchTerm] = useState('');
+  const [roleFilter, setRoleFilter] = useState('');
+  const [statusFilter, setStatusFilter] = useState('');
+
+  // Placeholder: get username from localStorage or context if available
+  const username = localStorage.getItem('username') || 'User';
+
+  // Logout handler
+  const handleLogout = () => {
+    // Remove auth info (customize as needed)
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    window.location.href = '/';
+  };
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -40,11 +55,33 @@ const GetAllUser = () => {
     );
   }
 
+  // Filtering logic
+  const filteredUsers = users.filter(user => {
+    // Search by name, email, or userId
+    const search = searchTerm.trim().toLowerCase();
+    const matchesSearch =
+      !search ||
+      (user.userId && user.userId.toLowerCase().includes(search)) ||
+      (user.email && user.email.toLowerCase().includes(search)) ||
+      (user.profile && (
+        (user.profile.firstName && user.profile.firstName.toLowerCase().includes(search)) ||
+        (user.profile.lastName && user.profile.lastName.toLowerCase().includes(search))
+      ));
+    // Filter by role
+    const matchesRole = !roleFilter || user.role === roleFilter;
+    // Filter by status
+    const matchesStatus = !statusFilter || (statusFilter === 'active' ? user.isActive : !user.isActive);
+    return matchesSearch && matchesRole && matchesStatus;
+  });
+
+  // Unique roles for filter dropdown
+  const uniqueRoles = Array.from(new Set(users.map(u => u.role))).filter(Boolean);
+
   return (
     <div className="min-h-screen bg-neutral-100">
       <header className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
+          <div className="flex items-center justify-between py-6">
             <div className="flex items-center">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600 text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
@@ -55,15 +92,59 @@ const GetAllUser = () => {
               </div>
               <h1 className="ml-3 text-2xl font-semibold text-gray-900">All Users</h1>
             </div>
+            <div className="flex items-center gap-4">
+              <span className="text-gray-700 font-medium">Hello, {username}</span>
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-400"
+              >
+                Logout
+              </button>
+            </div>
           </div>
         </div>
       </header>
+
+      {/* Search, Role Filter, Status Filter - inside marked area, below header, above User List */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-2 mb-4">
+        <div className="flex flex-col md:flex-row gap-2 md:gap-4 items-center justify-end">
+          {/* Search Bar */}
+          <input
+            type="text"
+            placeholder="Search by name, email, or ID..."
+            value={searchTerm}
+            onChange={e => setSearchTerm(e.target.value)}
+            className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 min-w-[180px]"
+          />
+          {/* Role Filter */}
+          <select
+            value={roleFilter}
+            onChange={e => setRoleFilter(e.target.value)}
+            className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 min-w-[140px]"
+          >
+            <option value="">All Roles</option>
+            {uniqueRoles.map(role => (
+              <option key={role} value={role}>{role.charAt(0).toUpperCase() + role.slice(1).toLowerCase()}</option>
+            ))}
+          </select>
+          {/* Status Filter */}
+          <select
+            value={statusFilter}
+            onChange={e => setStatusFilter(e.target.value)}
+            className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 min-w-[120px]"
+          >
+            <option value="">All Status</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+        </div>
+      </div>
 
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">User List</h2>
-            {users.length === 0 ? (
+            {filteredUsers.length === 0 ? (
               <p className="text-gray-600">No users found.</p>
             ) : (
               <div className="overflow-x-auto">
@@ -79,7 +160,7 @@ const GetAllUser = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {users.map(user => (
+                    {filteredUsers.map(user => (
                       <tr key={user._id} className="hover:bg-indigo-50">
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{user.userId}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{user.email}</td>

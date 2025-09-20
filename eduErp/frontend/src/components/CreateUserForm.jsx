@@ -49,8 +49,8 @@ const CreateUserForm = ({ onClose, onUserCreated }) => {
   const [joinDate, setJoinDate] = useState('');
   const [qualification, setQualification] = useState('');
   const [experience, setExperience] = useState('');
+  const [teacherNic, setTeacherNic] = useState('');
   
-
   const roleOptions = [
     { value: 'ADMIN', label: 'Admin' },
     { value: 'TEACHER', label: 'Teacher' },
@@ -142,7 +142,33 @@ const CreateUserForm = ({ onClose, onUserCreated }) => {
       setError('Please enter a valid email address');
       return false;
     }
+    // Date of Birth cannot be in the future
+    if (formData.profile.dob) {
+      const dobDate = new Date(formData.profile.dob);
+      const today = new Date();
+      // Set time to 00:00:00 for both dates to compare only the date part
+      dobDate.setHours(0,0,0,0);
+      today.setHours(0,0,0,0);
+      if (dobDate > today) {
+        setError('DOB cannot be future Date');
+        return false;
+      }
+    }
     return true;
+  };
+
+  // Validate NIC for teacher
+  const validateNic = (nic) => {
+    if (!nic) return false;
+    if (nic.length === 10) {
+      const firstNine = nic.substring(0, 9);
+      const lastChar = nic[9].toUpperCase();
+      return (/^\d{9}$/.test(firstNine) && lastChar === 'V');
+    }
+    if (nic.length === 12) {
+      return /^\d{12}$/.test(nic);
+    }
+    return false;
   };
 
   const handleSubmit = async (e) => {
@@ -155,6 +181,22 @@ const CreateUserForm = ({ onClose, onUserCreated }) => {
       setIsLoading(false);
       if(topRef.current) topRef.current.scrollIntoView({ behavior: 'smooth' });
       return;
+    }
+
+    // Teacher NIC validation
+    if (formData.role === 'TEACHER') {
+      if (!teacherNic) {
+        setError('NIC is required for teachers');
+        setIsLoading(false);
+        if(topRef.current) topRef.current.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+      if (!validateNic(teacherNic)) {
+        setError('Invalid NIC Number Format.');
+        setIsLoading(false);
+        if(topRef.current) topRef.current.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
     }
 
     try {
@@ -179,6 +221,7 @@ const CreateUserForm = ({ onClose, onUserCreated }) => {
       if (formData.role === 'TEACHER') {
         await teacherService.createTeacher({
           userId: newUserId,
+          nic: teacherNic,
           subjects: teacherSubjects,
           section: teacherSection,
           joinDate,
@@ -189,7 +232,6 @@ const CreateUserForm = ({ onClose, onUserCreated }) => {
       
       setSuccess(`User created successfully! User ID: ${response.data.user.userId}`);
       if(topRef.current) topRef.current.scrollIntoView({ behavior: 'smooth' });
-      
       // Clear form
       setFormData({
         email: '',
@@ -204,6 +246,13 @@ const CreateUserForm = ({ onClose, onUserCreated }) => {
         },
         remarks: ''
       });
+      setTeacherNic('');
+      setTeacherSubjects([]);
+      setSubjectInput('');
+      setTeacherSection(TEACHER_SECTION_OPTIONS[0]);
+      setJoinDate('');
+      setQualification('');
+      setExperience('');
 
       // Call callback to refresh user list
       if (onUserCreated) {
@@ -500,6 +549,21 @@ const CreateUserForm = ({ onClose, onUserCreated }) => {
 
                 {formData.role === 'TEACHER' && (
                   <>
+                    {/* NIC */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        NIC *
+                      </label>
+                      <input
+                        type="text"
+                        value={teacherNic}
+                        onChange={e => setTeacherNic(e.target.value)}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg"
+                        placeholder="Enter NIC"
+                        required
+                      />
+                    </div>
+
                     {/* Subjects */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">

@@ -1,8 +1,13 @@
 import React from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
+import Home from './pages/Home'
+import ResetPasswordPage from './pages/ResetPasswordPage'
 import AdminDashboard from './pages/AdminDashboard'
+import TeacherDashboard from './pages/TeacherDashboard'
 import GetAllUser from './pages/GetAllUser'
+import AddInventory from './pages/AddInventory'
+import GetAllInventory from './pages/GetAllInventory'
 import authService from './services/authService.js'
 import LeaveForm from './pages/LeaveForm'
 import LeaveList from './pages/LeaveList'
@@ -31,7 +36,7 @@ const AdminRoute = ({ children }) => {
   return children;
 };
 
-// Public Route component (redirects to dashboard if already logged in)
+// Public Route component (redirects to correct dashboard if already logged in)
 const PublicRoute = ({ children }) => {
   const isAuthenticated = authService.isAuthenticated();
   const currentUser = authService.getCurrentUser();
@@ -39,8 +44,10 @@ const PublicRoute = ({ children }) => {
   if (isAuthenticated) {
     if (currentUser?.role === 'ADMIN') {
       return <Navigate to="/admin" replace />;
+    } else if (currentUser?.role === 'TEACHER') {
+      return <Navigate to="/teacher-dashboard" replace />;
     } else {
-      return <Navigate to="/dashboard" replace />;
+      return <Navigate to="/" replace />;
     }
   }
   
@@ -50,7 +57,7 @@ const PublicRoute = ({ children }) => {
 const App = () => {
   return (
     <Routes>
-      <Route path='/' element={<Navigate to="/login" replace />} />
+      <Route path='/' element={<Home />} />
       <Route path='/leaves' element={<LeaveList />} />
       <Route path='/leaves/apply' element={<LeaveForm />} />
       <Route path='/manage-leave/:id' element={<ManageLeave />} />
@@ -69,16 +76,25 @@ const App = () => {
           <GetAllUser />
         </AdminRoute>
       } />
-      <Route path='/dashboard' element={
+      <Route path='/admin/inventory/add' element={
+        <AdminRoute>
+          <AddInventory />
+        </AdminRoute>
+      } />
+        <Route path='/admin/inventory' element={
+          <AdminRoute>
+            <GetAllInventory />
+          </AdminRoute>
+        } />
+
+
+      {/* Teacher Dashboard route */}
+      <Route path='/teacher-dashboard' element={
         <ProtectedRoute>
-          <div className="min-h-screen flex items-center justify-center bg-gray-50">
-            <div className="text-center">
-              <h1 className="text-2xl font-semibold text-gray-900 mb-4">Dashboard</h1>
-              <p className="text-gray-600">Dashboard for non-admin users coming soon...</p>
-            </div>
-          </div>
+          <TeacherDashboard />
         </ProtectedRoute>
       } />
+      <Route path='/reset-password' element={<ResetPasswordPage />} />
     </Routes>
   )
 }

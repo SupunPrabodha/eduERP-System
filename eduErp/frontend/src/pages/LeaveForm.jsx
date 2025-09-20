@@ -1,13 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const LeaveForm = () => {
   const [form, setForm] = useState({
     name: '',
-    leaveType: 'sick',
+    leaveType: 'Medical Leave',
     fromDate: '',
     toDate: '',
     reason: ''
   });
+
+  useEffect(() => {
+    // Get user from localStorage (same as TeacherDashboard)
+    try {
+      const userStr = localStorage.getItem('user');
+      if (userStr) {
+        const user = JSON.parse(userStr);
+        setForm(f => ({ ...f, name: user.name || user.userId || '' }));
+      }
+    } catch (e) {
+      // ignore
+    }
+  }, []);
   const [message, setMessage] = useState('');
 
   const handleChange = (e) => {
@@ -26,7 +39,7 @@ const LeaveForm = () => {
       const data = await res.json();
       if (res.ok) {
         setMessage('Leave application submitted successfully!');
-        setForm({ name: '', leaveType: 'sick', fromDate: '', toDate: '', reason: '' });
+        setForm({ name: '', leaveType: 'Medical Leave', fromDate: '', toDate: '', reason: '' });
       } else {
         setMessage(data.error || 'Error submitting leave application');
       }
@@ -64,8 +77,8 @@ const LeaveForm = () => {
                   type="text"
                   name="name"
                   value={form.name}
-                  onChange={handleChange}
-                  className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  readOnly
+                  className="w-full border border-gray-300 rounded px-3 py-2 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
                   required
                 />
               </div>

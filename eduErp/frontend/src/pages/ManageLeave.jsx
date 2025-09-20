@@ -44,8 +44,8 @@ const ManageLeave = () => {
 			setDeleting(true);
 			try {
 				await axios.delete(`/api/leaves/${id}`);
-				// Redirect to leave list or another page after deletion
-				navigate('/leaves');
+				// Redirect to admin dashboard after deletion
+				navigate('/admin');
 			} catch (err) {
 				setError(err.response?.data?.error || 'Failed to delete leave');
 			} finally {
@@ -65,10 +65,16 @@ const ManageLeave = () => {
 		);
 	}
 	if (error) {
+		// Redirect to admin dashboard after error (e.g., after deletion)
+		useEffect(() => {
+			const timeout = setTimeout(() => navigate('/admin'), 1500);
+			return () => clearTimeout(timeout);
+		}, [navigate]);
 		return (
 			<div className="min-h-screen flex items-center justify-center bg-gray-50">
 				<div className="bg-white rounded-lg shadow p-6">
 					<p className="text-red-600 text-lg font-semibold">{error}</p>
+					<p className="text-gray-500 mt-2">Redirecting to leave list...</p>
 				</div>
 			</div>
 		);
@@ -170,6 +176,12 @@ const ManageLeave = () => {
 							onClick={() => handleStatusChange('Rejected')}
 						>
 							Reject
+						</button>
+						<button
+							className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-lg transition-colors"
+							onClick={() => navigate('/admin')}
+						>
+							Back to Dashboard
 						</button>
 					</div>
 				</div>
