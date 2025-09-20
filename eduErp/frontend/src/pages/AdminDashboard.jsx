@@ -104,6 +104,7 @@ const AdminDashboard = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">User ID</label>
+                  
                 <p className="mt-1 text-sm text-gray-900">{user?.userId}</p>
               </div>
             </div>
@@ -138,10 +139,21 @@ const AdminDashboard = () => {
                   </div>
                   </button>
                   
-                  <div className="bg-indigo-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-indigo-900">System Settings</h3>
-                    <p className="text-sm text-indigo-700 mt-1">Configure system parameters</p>
-                  </div>
+                  <button
+                    onClick={() => navigate('/admin/payroll')}
+                    className="bg-indigo-50 p-4 rounded-lg hover:bg-indigo-100 transition-colors text-left"
+                  >
+                    <div className="flex items-center">
+                      <svg className="h-8 w-8 text-indigo-600 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12h18M12 3v18" />
+                      </svg>
+                      <div>
+                        <h3 className="font-medium text-indigo-900">Payroll Management</h3>
+                        <p className="text-sm text-indigo-700 mt-1">Manage staff payrolls and payslips</p>
+                      </div>
+                    </div>
+                  </button>
+                  
                   <div className="bg-indigo-50 p-4 rounded-lg">
                     <h3 className="font-medium text-indigo-900">Reports</h3>
                     <p className="text-sm text-indigo-700 mt-1">View system reports</p>
