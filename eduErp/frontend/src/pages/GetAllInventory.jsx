@@ -52,7 +52,7 @@ const GetAllInventory = () => {
                 <path d="m17 8 4 4-4 4" />
               </svg>
             </div>
-            <h1 className="ml-3 text-2xl font-semibold text-gray-900">All Inventory Items</h1>
+            <h1 className="ml-3 text-2xl font-semibold text-gray-900">Inventory Items</h1>
           </div>
         </div>
       </header>
@@ -68,21 +68,30 @@ const GetAllInventory = () => {
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item ID</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
-                      {/* Add more columns as needed */}
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
                     {items.map(item => (
                       <tr key={item._id} className="hover:bg-indigo-50">
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.itemId}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.name}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.description}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.category}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.quantity}</td>
-                        {/* Add more fields as needed */}
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.location}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm">
+                          <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                            item.status === 'available' ? 'bg-green-100 text-green-800' :
+                            item.status === 'unavailable' ? 'bg-red-100 text-red-800' :
+                            item.status === 'maintenance' ? 'bg-yellow-100 text-yellow-800' :
+                            'bg-gray-100 text-gray-800'
+                          }`}>
+                            {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
+                          </span>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
