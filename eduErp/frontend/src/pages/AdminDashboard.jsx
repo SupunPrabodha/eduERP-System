@@ -125,8 +125,22 @@ const AdminDashboard = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                       </svg>
                       <div>
-                        <h3 className="font-medium text-indigo-900">Create New User</h3>
+                        <h3 className="font-medium text-indigo-900">Add New User</h3>
                         <p className="text-sm text-indigo-700 mt-1">Add new users to the system</p>
+                      </div>
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => navigate('/admin/inventory/add')}
+                    className="bg-indigo-50 p-4 rounded-lg hover:bg-indigo-100 transition-colors text-left"
+                  >
+                    <div className="flex items-center">
+                      <svg className="h-8 w-8 text-green-600 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                      <div>
+                        <h3 className="font-medium text-green-900">Add New Item</h3>
+                        <p className="text-sm text-green-700 mt-1">Add new inventory items</p>
                       </div>
                     </div>
                   </button>
@@ -139,8 +153,7 @@ const AdminDashboard = () => {
                   </div>
                   </button>
                   
-                  <button
-                    onClick={() => navigate('/admin/payroll')}
+                  <button onClick={() => navigate('/admin/payroll')}
                     className="bg-indigo-50 p-4 rounded-lg hover:bg-indigo-100 transition-colors text-left"
                   >
                     <div className="flex items-center">
@@ -153,7 +166,21 @@ const AdminDashboard = () => {
                       </div>
                     </div>
                   </button>
-                  
+                  <div className="bg-indigo-50 p-4 rounded-lg">
+                  <button
+                    onClick={() => navigate('/admin/inventory')}
+                    className="bg-indigo-50 p-4 rounded-lg hover:bg-indigo-100 transition-colors text-left w-full"
+                  >
+                    <h3 className="font-medium text-indigo-900">Inventory</h3>
+                    <p className="text-sm text-indigo-700 mt-1">Manage inventory</p>
+                  </button>
+                  <button
+                    onClick={() => navigate('/leaves')}
+                    className="bg-indigo-50 p-4 rounded-lg hover:bg-indigo-100 transition-colors text-left w-full"
+                  >
+                    <h3 className="font-medium text-indigo-900">Leave Application</h3>
+                    <p className="text-sm text-indigo-700 mt-1">Manage Leave Request</p>
+                  </button>
                   <div className="bg-indigo-50 p-4 rounded-lg">
                     <h3 className="font-medium text-indigo-900">Reports</h3>
                     <p className="text-sm text-indigo-700 mt-1">View system reports</p>
@@ -162,17 +189,6 @@ const AdminDashboard = () => {
                     <h3 className="font-medium text-indigo-900">User Analytics</h3>
                     <p className="text-sm text-indigo-700 mt-1">View user statistics</p>
                   </div>
-                  <div className="bg-indigo-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-indigo-900">Inventory</h3>
-                    <p className="text-sm text-indigo-700 mt-1">Manage inventory</p>
-                  </div>
-                  <button
-                    onClick={() => navigate('/leaves')}
-                    className="bg-indigo-50 p-4 rounded-lg hover:bg-indigo-100 transition-colors text-left w-full"
-                  >
-                    <h3 className="font-medium text-indigo-900">Leave Application</h3>
-                    <p className="text-sm text-indigo-700 mt-1">Manage Leave Request</p>
-                  </button>
                 </>
               )}
               
