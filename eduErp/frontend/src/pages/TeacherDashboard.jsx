@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import authService from '../services/authService.js';
 
 const TeacherDashboard = () => {
@@ -99,9 +99,10 @@ const TeacherDashboard = () => {
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Quick Actions</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Submit Leave */}
-              <button
-                onClick={() => navigate('/leave-form')}
-                className="bg-indigo-50 p-4 rounded-lg hover:bg-indigo-100 transition-colors text-left"
+              <Link
+                to="/leaves/apply"
+                className="bg-indigo-50 p-4 rounded-lg hover:bg-indigo-100 transition-colors text-left block"
+                style={{ textDecoration: 'none' }}
               >
                 <div className="flex items-center">
                   <span className="h-8 w-8 flex items-center justify-center text-indigo-600 mr-3 text-2xl font-bold">+</span>
@@ -110,7 +111,7 @@ const TeacherDashboard = () => {
                     <p className="text-sm text-indigo-700 mt-1">Apply for leave</p>
                   </div>
                 </div>
-              </button>
+              </Link>
               {/* Check Inventory */}
               <button
                 onClick={() => navigate('/inventory')}

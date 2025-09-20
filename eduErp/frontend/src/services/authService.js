@@ -91,6 +91,16 @@ export const authService = {
   getToken: () => {
     return localStorage.getItem('token');
   },
+
+  // Reset password
+  resetPassword: async (userId, newPassword) => {
+    try {
+      const response = await api.post('/auth/reset-password', { userId, newPassword });
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || { message: 'Password reset failed' };
+    }
+  },
 };
 
 export default authService;

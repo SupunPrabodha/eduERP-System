@@ -1,3 +1,24 @@
+// Reset password for a user by userId
+export const resetPassword = async (req, res) => {
+  try {
+    const { userId, newPassword } = req.body;
+    if (!userId || !newPassword) {
+      return res.status(400).json({ success: false, message: 'User ID and new password are required' });
+    }
+    const user = await User.findOne({ userId });
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+    const saltRounds = 12;
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+    user.password = hashedPassword;
+    await user.save();
+    return res.status(200).json({ success: true, message: 'Password reset successfully' });
+  } catch (error) {
+    console.error('Reset password error:', error);
+    res.status(500).json({ success: false, message: 'Internal server error', error: error.message });
+  }
+};
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/userModel.js';

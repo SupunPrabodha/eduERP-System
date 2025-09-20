@@ -1,6 +1,7 @@
 import React from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
+import ResetPasswordPage from './pages/ResetPasswordPage'
 import AdminDashboard from './pages/AdminDashboard'
 import TeacherDashboard from './pages/TeacherDashboard'
 import GetAllUser from './pages/GetAllUser'
@@ -88,6 +89,7 @@ const App = () => {
           <TeacherDashboard />
         </ProtectedRoute>
       } />
+      <Route path='/reset-password' element={<ResetPasswordPage />} />
     </Routes>
   )
 }
