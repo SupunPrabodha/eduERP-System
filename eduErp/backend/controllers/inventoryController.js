@@ -1,7 +1,6 @@
-// Get next available inventory item ID
 export const getNextInventoryId = async (req, res) => {
   try {
-    // Find the item with the highest itemId (assuming itemId is like INV0001, INV0002, ...)
+    // Find the item with the highest itemId
     const lastItem = await Inventory.findOne({})
       .sort({ itemId: -1 })
       .collation({ locale: 'en_US', numericOrdering: true });
@@ -29,5 +28,15 @@ export const createInventoryItem = async (req, res) => {
     res.status(201).json(item);
   } catch (err) {
     res.status(400).json({ error: err.message });
+  }
+};
+
+// Get all inventory items
+export const getAllInventoryItems = async (req, res) => {
+  try {
+    const items = await Inventory.find({});
+    res.json(items);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch inventory items' });
   }
 };

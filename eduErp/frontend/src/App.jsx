@@ -6,6 +6,7 @@ import AdminDashboard from './pages/AdminDashboard'
 import TeacherDashboard from './pages/TeacherDashboard'
 import GetAllUser from './pages/GetAllUser'
 import AddInventory from './pages/AddInventory'
+import GetAllInventory from './pages/GetAllInventory'
 import authService from './services/authService.js'
 import LeaveForm from './pages/LeaveForm'
 import LeaveList from './pages/LeaveList'
@@ -77,6 +78,11 @@ const App = () => {
           <AddInventory />
         </AdminRoute>
       } />
+        <Route path='/admin/inventory' element={
+          <AdminRoute>
+            <GetAllInventory />
+          </AdminRoute>
+        } />
       <Route path='/dashboard' element={
         <ProtectedRoute>
           {/* Default dashboard for non-admin users, can redirect based on role if needed */}
