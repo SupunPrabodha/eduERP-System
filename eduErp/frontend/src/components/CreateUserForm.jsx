@@ -142,6 +142,18 @@ const CreateUserForm = ({ onClose, onUserCreated }) => {
       setError('Please enter a valid email address');
       return false;
     }
+    // Date of Birth cannot be in the future
+    if (formData.profile.dob) {
+      const dobDate = new Date(formData.profile.dob);
+      const today = new Date();
+      // Set time to 00:00:00 for both dates to compare only the date part
+      dobDate.setHours(0,0,0,0);
+      today.setHours(0,0,0,0);
+      if (dobDate > today) {
+        setError('DOB cannot be future Date');
+        return false;
+      }
+    }
     return true;
   };
 
