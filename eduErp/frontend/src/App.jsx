@@ -5,6 +5,7 @@ import ResetPasswordPage from './pages/ResetPasswordPage'
 import AdminDashboard from './pages/AdminDashboard'
 import TeacherDashboard from './pages/TeacherDashboard'
 import GetAllUser from './pages/GetAllUser'
+import AddInventory from './pages/AddInventory'
 import authService from './services/authService.js'
 import LeaveForm from './pages/LeaveForm'
 import LeaveList from './pages/LeaveList'
@@ -69,6 +70,11 @@ const App = () => {
       <Route path='/admin/users' element={
         <AdminRoute>
           <GetAllUser />
+        </AdminRoute>
+      } />
+      <Route path='/admin/inventory/add' element={
+        <AdminRoute>
+          <AddInventory />
         </AdminRoute>
       } />
       <Route path='/dashboard' element={
