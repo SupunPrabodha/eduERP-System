@@ -1,7 +1,9 @@
 import React from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
+import ResetPasswordPage from './pages/ResetPasswordPage'
 import AdminDashboard from './pages/AdminDashboard'
+import TeacherDashboard from './pages/TeacherDashboard'
 import GetAllUser from './pages/GetAllUser'
 import authService from './services/authService.js'
 import LeaveForm from './pages/LeaveForm'
@@ -71,6 +73,7 @@ const App = () => {
       } />
       <Route path='/dashboard' element={
         <ProtectedRoute>
+          {/* Default dashboard for non-admin users, can redirect based on role if needed */}
           <div className="min-h-screen flex items-center justify-center bg-gray-50">
             <div className="text-center">
               <h1 className="text-2xl font-semibold text-gray-900 mb-4">Dashboard</h1>
@@ -79,6 +82,14 @@ const App = () => {
           </div>
         </ProtectedRoute>
       } />
+
+      {/* Teacher Dashboard route */}
+      <Route path='/teacher-dashboard' element={
+        <ProtectedRoute>
+          <TeacherDashboard />
+        </ProtectedRoute>
+      } />
+      <Route path='/reset-password' element={<ResetPasswordPage />} />
     </Routes>
   )
 }

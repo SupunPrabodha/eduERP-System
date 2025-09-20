@@ -76,6 +76,7 @@ const LeaveList = () => {
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Leave Type</th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">From</th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">To</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
                       </tr>
                     </thead>
@@ -86,6 +87,7 @@ const LeaveList = () => {
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{leave.leaveType || '-'}</td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{leave.fromDate ? new Date(leave.fromDate).toLocaleDateString() : '-'}</td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{leave.toDate ? new Date(leave.toDate).toLocaleDateString() : '-'}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{leave.status || '-'}</td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                             <button
                               className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded"
