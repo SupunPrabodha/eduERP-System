@@ -4,13 +4,16 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-  "dev": "vite",
-  "start": "start chrome http://localhost:5173/ && vite",
+    "dev": "vite",
+    "start": "start chrome http://localhost:5173/ && vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/x-data-grid": "^8.11.3",
     "@tailwindcss/vite": "^4.1.12",
     "axios": "^1.11.0",
     "react": "^19.1.1",
