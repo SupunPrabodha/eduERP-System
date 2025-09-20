@@ -31,7 +31,6 @@ const studentSchema = new mongoose.Schema(
 );
 
 // Add indexes for faster lookups
-studentSchema.index({ admissionNo: 1 }, { unique: true });
 studentSchema.index({ grade: 1, section: 1 }, { unique: true });
 
 const Student = mongoose.model("Student", studentSchema);
