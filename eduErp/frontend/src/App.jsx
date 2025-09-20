@@ -36,7 +36,7 @@ const AdminRoute = ({ children }) => {
   return children;
 };
 
-// Public Route component (redirects to dashboard if already logged in)
+// Public Route component (redirects to correct dashboard if already logged in)
 const PublicRoute = ({ children }) => {
   const isAuthenticated = authService.isAuthenticated();
   const currentUser = authService.getCurrentUser();
@@ -44,8 +44,10 @@ const PublicRoute = ({ children }) => {
   if (isAuthenticated) {
     if (currentUser?.role === 'ADMIN') {
       return <Navigate to="/admin" replace />;
+    } else if (currentUser?.role === 'TEACHER') {
+      return <Navigate to="/teacher-dashboard" replace />;
     } else {
-      return <Navigate to="/dashboard" replace />;
+      return <Navigate to="/" replace />;
     }
   }
   
@@ -84,17 +86,7 @@ const App = () => {
             <GetAllInventory />
           </AdminRoute>
         } />
-      <Route path='/dashboard' element={
-        <ProtectedRoute>
-          {/* Default dashboard for non-admin users, can redirect based on role if needed */}
-          <div className="min-h-screen flex items-center justify-center bg-gray-50">
-            <div className="text-center">
-              <h1 className="text-2xl font-semibold text-gray-900 mb-4">Dashboard</h1>
-              <p className="text-gray-600">Dashboard for non-admin users coming soon...</p>
-            </div>
-          </div>
-        </ProtectedRoute>
-      } />
+
 
       {/* Teacher Dashboard route */}
       <Route path='/teacher-dashboard' element={
