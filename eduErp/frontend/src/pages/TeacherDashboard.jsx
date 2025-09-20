@@ -120,7 +120,7 @@ const TeacherDashboard = () => {
                 <div className="flex items-center">
                   <span className="h-8 w-8 flex items-center justify-center text-indigo-600 mr-3 text-2xl">📦</span>
                   <div>
-                    <h3 className="font-medium text-indigo-900">Check Inventory</h3>
+                    <h3 className="font-medium text-indigo-900">Request Inventory</h3>
                     <p className="text-sm text-indigo-700 mt-1">View available inventory</p>
                   </div>
                 </div>

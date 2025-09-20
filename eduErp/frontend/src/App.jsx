@@ -1,6 +1,7 @@
 import React from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
+import Home from './pages/Home'
 import ResetPasswordPage from './pages/ResetPasswordPage'
 import AdminDashboard from './pages/AdminDashboard'
 import TeacherDashboard from './pages/TeacherDashboard'
@@ -54,7 +55,7 @@ const PublicRoute = ({ children }) => {
 const App = () => {
   return (
     <Routes>
-      <Route path='/' element={<Navigate to="/login" replace />} />
+      <Route path='/' element={<Home />} />
       <Route path='/leaves' element={<LeaveList />} />
       <Route path='/leaves/apply' element={<LeaveForm />} />
       <Route path='/manage-leave/:id' element={<ManageLeave />} />
