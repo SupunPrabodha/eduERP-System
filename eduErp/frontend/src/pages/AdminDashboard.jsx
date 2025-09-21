@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import authService from "../services/authService.js";
 import CreateUserForm from "../components/CreateUserForm.jsx";
+// import UserProfile from "../components/UserProfile.jsx";
 
 const SIDEBAR_WIDTH = "18rem"; // Tailwind w-72
 
@@ -120,31 +121,33 @@ const AdminDashboard = () => {
         {/* Reserve space for the fixed desktop sidebar */}
         <div className="hidden md:block" style={{ height: 0, marginLeft: SIDEBAR_WIDTH }} />
 
-        {/* Page header */}
+        {/* Page header with user icon button */}
         <header className="bg-gradient-to-r from-blue-50 to-white border-b">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 md:ml-72">
-            <h1 className="text-2xl md:text-3xl font-bold text-slate-900">Admin Dashboard</h1>
-            <p className="mt-1 text-sm text-slate-600">
-              Manage users, payroll, inventory, and leave. Use the quick actions below or the left navigation.
-            </p>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 md:ml-72 flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold text-slate-900">Admin Dashboard</h1>
+              <p className="mt-1 text-sm text-slate-600">
+                Manage users, payroll, inventory, and leave. Use the quick actions below or the left navigation.
+              </p>
+            </div>
+            <button
+              className="ml-4 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 hover:bg-blue-200 transition shadow"
+              title="View Profile"
+              onClick={() => navigate('/profile')}
+            >
+              <svg className="h-7 w-7 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </button>
           </div>
         </header>
 
         {/* Main Content */}
         <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 md:ml-72">
-          {/* User info card */}
-          <section className="bg-white rounded-xl border border-slate-100 shadow-sm p-6">
-            <h2 className="text-lg font-semibold text-slate-900 mb-4">User Information</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <InfoRow label="Name" value={user?.name || "—"} />
-              <InfoRow label="Email" value={user?.email || "—"} />
-              <InfoRow label="Role" value={user?.role ? user.role.toUpperCase() : "—"} />
-              <InfoRow label="User ID" value={user?.userId || "—"} />
-            </div>
-          </section>
-
+          {/* Removed profile card from dashboard */}
           {/* Quick Actions */}
-          <section className="mt-6 bg-white rounded-xl border border-slate-100 shadow-sm p-6">
+          <section className="bg-white rounded-xl border border-slate-100 shadow-sm p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-slate-900">Quick Actions</h2>
             </div>
@@ -325,7 +328,7 @@ function SideNavItem({ to, label, onNavigate, icon }) {
         }`
       }
     >
-      <svg className={h-5 w-5 ${"stroke-current"}} fill="none" viewBox="0 0 24 24" strokeWidth="2">
+      <svg className="h-5 w-5 stroke-current" fill="none" viewBox="0 0 24 24" strokeWidth="2">
         {iconMap[icon] || <path d="M4 6h16M4 12h16M4 18h16" />}
       </svg>
       <span className="text-sm font-medium">{label}</span>
@@ -349,10 +352,10 @@ function ActionCard({ onClick, title, subtitle, iconColor = "text-blue-600", bgC
   return (
     <button
       onClick={onClick}
-      className={${bgColor} p-4 rounded-xl hover:bg-white border border-transparent hover:border-blue-100 shadow-sm hover:shadow-md transition text-left w-full}
+      className={`${bgColor} p-4 rounded-xl hover:bg-white border border-transparent hover:border-blue-100 shadow-sm hover:shadow-md transition text-left w-full`}
     >
       <div className="flex items-start gap-3">
-        <div className={flex h-10 w-10 items-center justify-center rounded-lg bg-white ${iconColor}}>
+        <div className={`flex h-10 w-10 items-center justify-center rounded-lg bg-white ${iconColor}`}>
           <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             {icon}
           </svg>
