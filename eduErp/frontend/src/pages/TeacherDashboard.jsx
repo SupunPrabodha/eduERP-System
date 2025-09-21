@@ -277,10 +277,10 @@ function ActionCard({ onClick, title, subtitle, iconColor = "text-blue-600", bgC
   return (
     <button
       onClick={onClick}
-      className={`${bgColor} p-4 rounded-xl hover:bg-white border border-transparent hover:border-blue-100 shadow-sm hover:shadow-md transition text-left w-full`}
+      className={${bgColor} p-4 rounded-xl hover:bg-white border border-transparent hover:border-blue-100 shadow-sm hover:shadow-md transition text-left w-full}
     >
       <div className="flex items-start gap-3">
-        <div className={`flex h-10 w-10 items-center justify-center rounded-lg bg-white ${iconColor}`}>
+        <div className={flex h-10 w-10 items-center justify-center rounded-lg bg-white ${iconColor}}>
           <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             {icon}
           </svg>
