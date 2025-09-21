@@ -1,3 +1,5 @@
+import PayrollDetails from './components/PayrollDetails.jsx';
+import PayrollDashboard from './components/PayrollDashboard.jsx';
 import React from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
@@ -11,6 +13,8 @@ import authService from './services/authService.js'
 import LeaveForm from './pages/LeaveForm'
 import LeaveList from './pages/LeaveList'
 import ManageLeave from './pages/ManageLeave';
+// import PayrollDashboard from './components/PayrollDashboard.jsx';
+
 
 
 // Protected Route component
@@ -58,6 +62,8 @@ const App = () => {
       <Route path='/leaves' element={<LeaveList />} />
       <Route path='/leaves/apply' element={<LeaveForm />} />
       <Route path='/manage-leave/:id' element={<ManageLeave />} />
+      <Route path="/admin/payroll" element={<PayrollDashboard user={authService.getCurrentUser()} />} />
+      <Route path="/payroll-details/:id" element={<PayrollDetails />} />
       <Route path='/login' element={
         <PublicRoute>
           <LoginPage />
