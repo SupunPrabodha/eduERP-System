@@ -200,6 +200,7 @@ const AdminDashboard = () => {
 
                   <MutedCard title="Reports" subtitle="View system reports (coming soon)" />
                   <MutedCard title="User Analytics" subtitle="Track usage & trends (coming soon)" />
+                  <MutedCard title="Complaints" subtitle="View Complaints (coming soon)" />
                 </>
               )}
 
@@ -336,9 +337,6 @@ function SideNavItem({ to, label, onNavigate, icon }) {
   );
 }
 
-/* -------------------------
-   Small UI helpers
---------------------------*/
 function InfoRow({ label, value }) {
   return (
     <div>
