@@ -101,10 +101,12 @@ export const login = async (req, res) => {
 };
 
 // Get current user profile
+import Teacher from '../models/teacherModel.js';
+import Student from '../models/studentModel.js';
+
 export const getProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.userId).select('-password');
-    
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -112,11 +114,20 @@ export const getProfile = async (req, res) => {
       });
     }
 
+    let extraDetails = null;
+    if (user.role === 'TEACHER') {
+      extraDetails = await Teacher.findOne({ userId: user._id });
+    } else if (user.role === 'STUDENT') {
+      extraDetails = await Student.findOne({ userId: user._id });
+    }
+
     res.status(200).json({
       success: true,
-      data: { user }
+      data: {
+        user,
+        details: extraDetails
+      }
     });
-
   } catch (error) {
     console.error('Get profile error:', error);
     res.status(500).json({
