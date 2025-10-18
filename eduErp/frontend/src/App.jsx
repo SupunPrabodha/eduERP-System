@@ -1,8 +1,8 @@
-import PayrollDetails from "./components/PayrollDetails.jsx";
-import PayrollDashboard from "./components/PayrollDashboard.jsx";
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
+import PayrollDetails from "./components/PayrollDetails.jsx";
+import PayrollDashboard from "./components/PayrollDashboard.jsx";
 import Home from "./pages/Home";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -15,8 +15,9 @@ import UserProfilePage from "./pages/UserProfilePage";
 import LeaveForm from "./pages/LeaveForm";
 import LeaveList from "./pages/LeaveList";
 import ManageLeave from "./pages/ManageLeave";
-
 // import PayrollDashboard from './components/PayrollDashboard.jsx';
+
+
 
 // Protected Route component
 const ProtectedRoute = ({ children }) => {
@@ -39,6 +40,7 @@ const AdminRoute = ({ children }) => {
 
   return children;
 };
+
 
 // Public Route component (redirects to correct dashboard if already logged in)
 const PublicRoute = ({ children }) => {
