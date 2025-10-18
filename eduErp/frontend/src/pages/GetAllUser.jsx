@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import userService from '../services/userService';
 
 const GetAllUser = () => {
@@ -12,6 +13,11 @@ const GetAllUser = () => {
 
   // Placeholder: get username from localStorage or context if available
   const username = localStorage.getItem('username') || 'User';
+  const navigate = useNavigate();
+  // Handler to navigate to user details
+  const handleUserClick = (userId) => {
+    navigate(`/user-details/${userId}`);
+  };
 
   // Logout handler
   const handleLogout = () => {
@@ -161,7 +167,11 @@ const GetAllUser = () => {
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
                     {filteredUsers.map(user => (
-                      <tr key={user._id} className="hover:bg-indigo-50">
+                      <tr
+                        key={user._id}
+                        className="hover:bg-indigo-50 cursor-pointer"
+                        onClick={() => handleUserClick(user.userId)}
+                      >
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{user.userId}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{user.email}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{user.profile?.firstName} {user.profile?.lastName}</td>

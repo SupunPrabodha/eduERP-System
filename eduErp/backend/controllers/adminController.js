@@ -1,6 +1,40 @@
+
 import bcrypt from 'bcryptjs';
 import User from '../models/userModel.js';
 import { sendCredentialsEmail } from '../services/emailService.js';
+
+// Update user by userId
+export const updateUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const updateData = req.body;
+    const user = await User.findOneAndUpdate(
+      { userId },
+      { $set: updateData },
+      { new: true, runValidators: true, context: 'query' }
+    ).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    return res.status(200).json({ user });
+  } catch (error) {
+    return res.status(500).json({ message: 'Internal server error', error: error.message });
+  }
+};
+
+// Get user by userId
+export const getUserById = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = await User.findOne({ userId }).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    return res.status(200).json({ user });
+  } catch (error) {
+    return res.status(500).json({ message: 'Internal server error', error: error.message });
+  }
+};
 
 // Generate next user ID based on role
 const generateNextUserId = async (role) => {
