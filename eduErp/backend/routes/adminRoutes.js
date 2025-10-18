@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUser, getAllUsers, getNextUserId, getUserById, updateUser } from '../controllers/adminController.js';
+import { createUser, getAllUsers, getNextUserId, getUserById, updateUser, deleteUser } from '../controllers/adminController.js';
 import { authenticateToken, authorizeRole } from '../middleware/authMiddleware.js';
 import { getNextStudentAdmissionNo, createStudent } from '../controllers/studentController.js';
 import { createTeacher, getAllTeachers, getTeacherById, updateTeacher, deleteTeacher} from '../controllers/teacherController.js';
@@ -14,6 +14,9 @@ router.use(authorizeRole('ADMIN'));
 // User management routes
 router.post('/users', createUser);
 router.get('/users/:userId', getUserById);
+
+// Delete user route
+router.delete('/users/:userId', deleteUser);
 router.put('/users/:userId', updateUser);
 
 // Student CRUD routes
