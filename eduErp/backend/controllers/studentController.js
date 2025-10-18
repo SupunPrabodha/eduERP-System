@@ -42,3 +42,64 @@ const createStudent = async (req, res) => {
     }
 };
 export { createStudent };
+
+// Get all students
+const getAllStudents = async (req, res) => {
+    try {
+        const students = await Student.find();
+        res.status(200).json({ success: true, students });
+    } catch (error) {
+        console.error('Error fetching students:', error);
+        res.status(500).json({ success: false, message: 'Failed to fetch students' });
+    }
+};
+export { getAllStudents };
+
+// Get student by ID
+const getStudentById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const student = await Student.findById(id);
+        if (!student) {
+            return res.status(404).json({ success: false, message: 'Student not found' });
+        }
+        res.status(200).json({ success: true, student });
+    } catch (error) {
+        console.error('Error fetching student:', error);
+        res.status(500).json({ success: false, message: 'Failed to fetch student' });
+    }
+};
+export { getStudentById };
+
+// Update student
+const updateStudent = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updateData = req.body;
+        const student = await Student.findByIdAndUpdate(id, updateData, { new: true, runValidators: true });
+        if (!student) {
+            return res.status(404).json({ success: false, message: 'Student not found' });
+        }
+        res.status(200).json({ success: true, student });
+    } catch (error) {
+        console.error('Error updating student:', error);
+        res.status(500).json({ success: false, message: 'Failed to update student' });
+    }
+};
+export { updateStudent };
+
+// Delete student
+const deleteStudent = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const student = await Student.findByIdAndDelete(id);
+        if (!student) {
+            return res.status(404).json({ success: false, message: 'Student not found' });
+        }
+        res.status(200).json({ success: true, message: 'Student deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting student:', error);
+        res.status(500).json({ success: false, message: 'Failed to delete student' });
+    }
+};
+export { deleteStudent };

@@ -1,12 +1,9 @@
 import express from 'express';
-import { 
-  createUser, 
-  getAllUsers,
-  getNextUserId 
-} from '../controllers/adminController.js';
+import { createUser, getAllUsers, getNextUserId } from '../controllers/adminController.js';
 import { authenticateToken, authorizeRole } from '../middleware/authMiddleware.js';
 import { getNextStudentAdmissionNo, createStudent } from '../controllers/studentController.js';
-import { createTeacher } from '../controllers/teacherController.js';
+import { createTeacher, getAllTeachers, getTeacherById, updateTeacher, deleteTeacher} from '../controllers/teacherController.js';
+import { createStudent, getAllStudents, getStudentById, updateStudent, deleteStudent, getNextStudentAdmissionNo} from '../controllers/studentController.js';
 
 const router = express.Router();
 
@@ -16,11 +13,24 @@ router.use(authorizeRole('ADMIN'));
 
 // User management routes
 router.post('/users', createUser);
-router.post('/students', createStudent)
+
+// Student CRUD routes
+router.post('/students', createStudent);
+router.get('/students', getAllStudents);
+router.get('/students/:id', getStudentById);
+router.put('/students/:id', updateStudent);
+router.delete('/students/:id', deleteStudent);
+router.get('/users/student/next-admission-no', getNextStudentAdmissionNo);
+
+// Teacher CRUD routes
 router.post('/teachers', createTeacher);
+router.get('/teachers', getAllTeachers);
+router.get('/teachers/:id', getTeacherById);
+router.put('/teachers/:id', updateTeacher);
+router.delete('/teachers/:id', deleteTeacher);
+
+// User management routes
 router.get('/users', getAllUsers);
 router.get('/users/next-id/:role', getNextUserId);
-
-router.get('/users/student/next-admission-no', getNextStudentAdmissionNo);
 
 export default router;
