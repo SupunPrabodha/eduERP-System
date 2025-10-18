@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import userService from '../services/userService';
 
 const GetAllUser = () => {
@@ -12,6 +13,24 @@ const GetAllUser = () => {
 
   // Placeholder: get username from localStorage or context if available
   const username = localStorage.getItem('username') || 'User';
+  const navigate = useNavigate();
+  // Handler to navigate to user details
+  const handleUserClick = (userId) => {
+    navigate(`/user-details/${userId}`);
+  };
+
+  // Handler to delete user
+  const handleDeleteUser = async (e, userId) => {
+    e.stopPropagation(); // Prevent row click
+    if (window.confirm('Are you sure you want to delete this user?')) {
+      try {
+        await userService.deleteUser(userId);
+        setUsers(prev => prev.filter(u => u.userId !== userId));
+      } catch (err) {
+        alert(err.message || 'Failed to delete user');
+      }
+    }
+  };
 
   // Logout handler
   const handleLogout = () => {
@@ -157,11 +176,16 @@ const GetAllUser = () => {
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
                     {filteredUsers.map(user => (
-                      <tr key={user._id} className="hover:bg-indigo-50">
+                      <tr
+                        key={user._id}
+                        className="hover:bg-indigo-50 cursor-pointer"
+                        onClick={() => handleUserClick(user.userId)}
+                      >
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{user.userId}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{user.email}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{user.profile?.firstName} {user.profile?.lastName}</td>
@@ -171,6 +195,14 @@ const GetAllUser = () => {
                           <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${user.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
                             {user.isActive ? 'Active' : 'Inactive'}
                           </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm">
+                          <button
+                            className="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded font-medium text-xs focus:outline-none focus:ring-2 focus:ring-red-400"
+                            onClick={e => handleDeleteUser(e, user.userId)}
+                          >
+                            Delete
+                          </button>
                         </td>
                       </tr>
                     ))}

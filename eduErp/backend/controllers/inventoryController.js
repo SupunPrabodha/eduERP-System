@@ -40,3 +40,46 @@ export const getAllInventoryItems = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch inventory items' });
   }
 };
+
+// Get inventory item by ID
+export const getInventoryItemById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const item = await Inventory.findById(id);
+    if (!item) {
+      return res.status(404).json({ error: 'Inventory item not found' });
+    }
+    res.json(item);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch inventory item' });
+  }
+};
+
+// Update inventory item
+export const updateInventoryItem = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateData = req.body;
+    const item = await Inventory.findByIdAndUpdate(id, updateData, { new: true, runValidators: true });
+    if (!item) {
+      return res.status(404).json({ error: 'Inventory item not found' });
+    }
+    res.json(item);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update inventory item' });
+  }
+};
+
+// Delete inventory item
+export const deleteInventoryItem = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const item = await Inventory.findByIdAndDelete(id);
+    if (!item) {
+      return res.status(404).json({ error: 'Inventory item not found' });
+    }
+    res.json({ message: 'Inventory item deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete inventory item' });
+  }
+};

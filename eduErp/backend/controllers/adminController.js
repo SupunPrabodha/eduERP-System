@@ -1,6 +1,53 @@
+// Delete user by userId
+export const deleteUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const deletedUser = await User.findOneAndDelete({ userId });
+    if (!deletedUser) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+    return res.status(200).json({ success: true, message: 'User deleted successfully' });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Internal server error', error: error.message });
+  }
+}
+
 import bcrypt from 'bcryptjs';
 import User from '../models/userModel.js';
 import { sendCredentialsEmail } from '../services/emailService.js';
+
+// Update user by userId
+export const updateUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const updateData = req.body;
+    const user = await User.findOneAndUpdate(
+      { userId },
+      { $set: updateData },
+      { new: true, runValidators: true, context: 'query' }
+    ).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    return res.status(200).json({ user });
+  } catch (error) {
+    return res.status(500).json({ message: 'Internal server error', error: error.message });
+  }
+};
+
+// Get user by userId
+export const getUserById = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = await User.findOne({ userId }).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    return res.status(200).json({ user });
+  } catch (error) {
+    return res.status(500).json({ message: 'Internal server error', error: error.message });
+  }
+};
 
 // Generate next user ID based on role
 const generateNextUserId = async (role) => {
@@ -140,101 +187,6 @@ export const getAllUsers = async (req, res, next) => {
 
   return res.status(200).json({ users });
 };
-
-// Get user by ID
-// export const getUserById = async (req, res) => {
-//   try {
-//     const { userId } = req.params;
-//     const user = await User.findById(userId).select('-password');
-    
-//     if (!user) {
-//       return res.status(404).json({
-//         success: false,
-//         message: 'User not found'
-//       });
-//     }
-
-//     res.status(200).json({
-//       success: true,
-//       data: { user }
-//     });
-
-//   } catch (error) {
-//     console.error('Get user by ID error:', error);
-//     res.status(500).json({
-//       success: false,
-//       message: 'Internal server error',
-//       error: error.message
-//     });
-//   }
-// };
-
-// Update user
-// export const updateUser = async (req, res) => {
-//   try {
-//     const { userId } = req.params;
-//     const updateData = req.body;
-
-//     // Remove sensitive fields from update
-//     delete updateData.password;
-//     delete updateData.userId;
-
-//     const user = await User.findByIdAndUpdate(
-//       userId,
-//       updateData,
-//       { new: true, runValidators: true }
-//     ).select('-password');
-
-//     if (!user) {
-//       return res.status(404).json({
-//         success: false,
-//         message: 'User not found'
-//       });
-//     }
-
-//     res.status(200).json({
-//       success: true,
-//       message: 'User updated successfully',
-//       data: { user }
-//     });
-
-//   } catch (error) {
-//     console.error('Update user error:', error);
-//     res.status(500).json({
-//       success: false,
-//       message: 'Internal server error',
-//       error: error.message
-//     });
-//   }
-// };
-
-// Delete user
-// export const deleteUser = async (req, res) => {
-//   try {
-//     const { userId } = req.params;
-//     const user = await User.findByIdAndDelete(userId);
-
-//     if (!user) {
-//       return res.status(404).json({
-//         success: false,
-//         message: 'User not found'
-//       });
-//     }
-
-//     res.status(200).json({
-//       success: true,
-//       message: 'User deleted successfully'
-//     });
-
-//   } catch (error) {
-//     console.error('Delete user error:', error);
-//     res.status(500).json({
-//       success: false,
-//       message: 'Internal server error',
-//       error: error.message
-//     });
-//   }
-// };
 
 // Get next user ID for a role
 export const getNextUserId = async (req, res) => {
