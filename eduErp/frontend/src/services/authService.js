@@ -75,10 +75,29 @@ export const authService = {
     }
   },
 
-  // Check if user is authenticated
+  // Check if user is authenticated and token is valid (JWT expiry)
   isAuthenticated: () => {
-  const token = localStorage.getItem('token');
-    return !!token;
+    const token = localStorage.getItem('token');
+    if (!token) return false;
+    // Check if token is JWT (contains two dots)
+    const parts = token.split('.');
+    if (parts.length === 3) {
+      try {
+        const payload = JSON.parse(atob(parts[1]));
+        if (payload.exp && Date.now() >= payload.exp * 1000) {
+          // Token expired
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          return false;
+        }
+      } catch (e) {
+        // Invalid token format, clear
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        return false;
+      }
+    }
+    return true;
   },
 
   // Get current user from localStorage

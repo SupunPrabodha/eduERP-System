@@ -147,7 +147,7 @@ const AdminDashboard = () => {
         <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 md:ml-72">
           {/* Removed profile card from dashboard */}
           {/* Quick Actions */}
-          <section className="bg-white rounded-xl border border-slate-100 shadow-sm p-6">
+          <section className="bg-white rounded-xl border border-slate-100 shadow-md p-12 w-full mt-8">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-slate-900">Quick Actions</h2>
             </div>
@@ -200,6 +200,7 @@ const AdminDashboard = () => {
 
                   <MutedCard title="Reports" subtitle="View system reports (coming soon)" />
                   <MutedCard title="User Analytics" subtitle="Track usage & trends (coming soon)" />
+                  <MutedCard title="Complaints" subtitle="View Complaints (coming soon)" />
                 </>
               )}
 
@@ -336,9 +337,6 @@ function SideNavItem({ to, label, onNavigate, icon }) {
   );
 }
 
-/* -------------------------
-   Small UI helpers
---------------------------*/
 function InfoRow({ label, value }) {
   return (
     <div>
