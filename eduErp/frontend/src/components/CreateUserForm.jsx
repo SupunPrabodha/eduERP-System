@@ -518,14 +518,17 @@ const CreateUserForm = ({ onClose, onUserCreated }) => {
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Grade:
                     </label>
-                    <input
-                      type="text"
+                    <select
                       value={grade}
                       onChange={(e) => setGrade(e.target.value)}
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
-                      placeholder="Enter grade"
-                    />
+                    >
+                      <option value="">Select Grade</option>
+                      {[...Array(13)].map((_, i) => (
+                        <option key={i+1} value={i+1}>{i+1}</option>
+                      ))}
+                    </select>
                   </div>
 
                   <div>
