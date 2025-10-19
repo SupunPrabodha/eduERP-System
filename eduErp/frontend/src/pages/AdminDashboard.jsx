@@ -199,12 +199,16 @@ const AdminDashboard = () => {
                   />
 
                   <MutedCard title="Reports" subtitle="View system reports (coming soon)" />
-                  <MutedCard title="User Analytics" subtitle="Track usage & trends (coming soon)" />
                   <SimpleActionCard
-                    onClick={() => navigate("/complaints")}
-                    title="Complaints"
-                    subtitle="View all complaints"
+                    onClick={() => navigate("/user-analysis")}
+                    title="User Analysis"
+                    subtitle="Teachers & students analysis"
                   />
+                    <SimpleActionCard
+                      onClick={() => navigate("/complaints")}
+                      title="Complaints"
+                      subtitle="View all complaints"
+                    />
                 </>
               )}
 

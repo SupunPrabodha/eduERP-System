@@ -18,6 +18,15 @@ api.interceptors.request.use(
 );
 
 export const teacherService = {
+  // Safely fetch all teachers for analysis
+  getAllTeachers: async () => {
+    try {
+      const response = await api.get('/admin/teachers');
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || { message: 'Failed to fetch teachers' };
+    }
+  },
   createTeacher: async (teacherData) => {
     try {
       const response = await api.post('/admin/teachers', teacherData);

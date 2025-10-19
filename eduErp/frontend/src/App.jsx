@@ -19,7 +19,7 @@ import UserProfilePage from "./pages/UserProfilePage";
 import LeaveForm from "./pages/LeaveForm";
 import LeaveList from "./pages/LeaveList";
 import ManageLeave from "./pages/ManageLeave";
-// import PayrollDashboard from './components/PayrollDashboard.jsx';
+import UserAnalysis from "./pages/UserAnalysis";
 
 
 
@@ -89,6 +89,7 @@ const App = () => {
       <Route path="/teacher-dashboard" element={<ProtectedRoute> <TeacherDashboard /> </ProtectedRoute>} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
       <Route path="/profile" element={<UserProfilePage />} />
+      <Route path="/user-analysis" element={<AdminRoute> <UserAnalysis /> </AdminRoute>} />
     </Routes>
   );
 };
