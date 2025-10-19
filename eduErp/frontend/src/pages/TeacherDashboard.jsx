@@ -137,7 +137,7 @@ const TeacherDashboard = () => {
               <h2 className="text-lg font-semibold text-slate-900">Quick Actions</h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <ActionCard
                 onClick={() => navigate("/leaves/apply")}
                 title="Submit Leave"
@@ -153,6 +153,20 @@ const TeacherDashboard = () => {
                 iconColor="text-emerald-600"
                 bgColor="bg-emerald-50"
                 icon={<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7h18M6 7v10M18 7v10M3 12h18" />}
+              />
+              <ActionCard
+                onClick={() => navigate("/complaints")}
+                title="Complaints"
+                subtitle="Submit complaints"
+                iconColor="text-orange-600"
+                bgColor="bg-orange-50"
+                icon={
+                  <>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 20h9" />
+                    <circle cx="12" cy="10" r="6" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14v-4" />
+                  </>
+                }
               />
               <SimpleActionCard
                 onClick={() => navigate("/profile")}
