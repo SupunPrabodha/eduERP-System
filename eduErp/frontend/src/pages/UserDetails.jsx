@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import userService from '../services/userService';
 
+
 const UserDetails = () => {
 	const { userId } = useParams();
 	const navigate = useNavigate();
@@ -10,6 +11,19 @@ const UserDetails = () => {
 	const [error, setError] = useState(null);
 	const [updating, setUpdating] = useState(false);
 	const [updateError, setUpdateError] = useState(null);
+	const [editMode, setEditMode] = useState(false);
+		const [editFields, setEditFields] = useState({
+			email: '',
+			role: '',
+			phone: '',
+			profile: {
+				firstName: '',
+				lastName: '',
+				address: '',
+				dob: '',
+				gender: '',
+			},
+		});
 
 	useEffect(() => {
 		const fetchUser = async () => {
@@ -25,6 +39,23 @@ const UserDetails = () => {
 		fetchUser();
 	}, [userId]);
 
+		useEffect(() => {
+			if (user) {
+				setEditFields({
+					email: user.email || '',
+					role: user.role || '',
+					phone: user.phone || '',
+					profile: {
+						firstName: user.profile?.firstName || '',
+						lastName: user.profile?.lastName || '',
+						address: user.profile?.address || '',
+						dob: user.profile?.dob || '',
+						gender: user.profile?.gender || '',
+					},
+				});
+			}
+		}, [user, editMode]);
+
 	const handleToggleActive = async () => {
 		if (!user) return;
 		setUpdating(true);
@@ -39,6 +70,73 @@ const UserDetails = () => {
 			setUpdating(false);
 		}
 	};
+
+	const handleEditChange = (e) => {
+		const { name, value } = e.target;
+		if (name.startsWith('profile.')) {
+			const field = name.split('.')[1];
+			setEditFields((prev) => ({
+				...prev,
+				profile: {
+					...prev.profile,
+					[field]: value,
+				},
+			}));
+		} else {
+			setEditFields((prev) => ({ ...prev, [name]: value }));
+		}
+	};
+
+	const handleEdit = () => {
+		setEditMode(true);
+		setUpdateError(null);
+	};
+
+		const handleCancelEdit = () => {
+			setEditMode(false);
+			setUpdateError(null);
+			// Reset fields to user values
+			setEditFields({
+				email: user.email || '',
+				role: user.role || '',
+				phone: user.phone || '',
+				profile: {
+					firstName: user.profile?.firstName || '',
+					lastName: user.profile?.lastName || '',
+					address: user.profile?.address || '',
+					dob: user.profile?.dob || '',
+					gender: user.profile?.gender || '',
+				},
+			});
+		};
+
+		const handleSaveEdit = async () => {
+			if (!user) return;
+			setUpdating(true);
+			setUpdateError(null);
+			try {
+				// Always send all required profile fields
+				const updateData = {
+					email: editFields.email,
+					role: editFields.role,
+					phone: editFields.phone,
+					profile: {
+						firstName: editFields.profile.firstName,
+						lastName: editFields.profile.lastName,
+						address: editFields.profile.address,
+						dob: editFields.profile.dob,
+						gender: editFields.profile.gender,
+					},
+				};
+				await userService.updateUser(user.userId, updateData);
+				setUser((prev) => ({ ...prev, ...updateData }));
+				setEditMode(false);
+			} catch (err) {
+				setUpdateError(err.message || 'Failed to update user');
+			} finally {
+				setUpdating(false);
+			}
+		};
 
 	if (loading) {
 		return (
@@ -75,26 +173,85 @@ const UserDetails = () => {
 				<div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
 					<div className="flex items-center justify-between py-6">
 						<h1 className="text-2xl font-semibold text-gray-900">User Details</h1>
-						<button
-							onClick={() => navigate(-1)}
-							className="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-						>
-							Back
-						</button>
+						<div className="flex gap-2">
+							<button
+								onClick={() => navigate(-1)}
+								className="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+							>
+								Back
+							</button>
+							{!editMode && (
+								<button
+									onClick={handleEdit}
+									className="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+								>
+									Edit
+								</button>
+							)}
+						</div>
 					</div>
 				</div>
 			</header>
 			<main className="max-w-3xl mx-auto py-6 sm:px-6 lg:px-8">
 				<div className="bg-white rounded-lg shadow p-6">
-					<h2 className="text-xl font-semibold text-gray-900 mb-4">{user.profile?.firstName} {user.profile?.lastName}</h2>
+					<h2 className="text-xl font-semibold text-gray-900 mb-4">
+						{editMode ? (
+							<>
+								<input
+									type="text"
+									name="profile.firstName"
+									value={editFields.profile.firstName}
+									onChange={handleEditChange}
+									className="border rounded px-2 py-1 mr-2"
+									placeholder="First Name"
+									disabled={updating}
+								/>
+								<input
+									type="text"
+									name="profile.lastName"
+									value={editFields.profile.lastName}
+									onChange={handleEditChange}
+									className="border rounded px-2 py-1"
+									placeholder="Last Name"
+									disabled={updating}
+								/>
+							</>
+						) : (
+							<>{user.profile?.firstName} {user.profile?.lastName}</>
+						)}
+					</h2>
 					{updateError && <p className="text-red-600 mb-2">{updateError}</p>}
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 						<div>
-							<p className="text-gray-700"><span className="font-medium">User ID:</span> {user.userId}</p>
-							<p className="text-gray-700"><span className="font-medium">Email:</span> {user.email}</p>
-							<p className="text-gray-700"><span className="font-medium">Role:</span> {user.role}</p>
-							<p className="text-gray-700"><span className="font-medium">Phone:</span> {user.phone}</p>
-							<p className="text-gray-700"><span className="font-medium">Status:</span> <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${user.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>{user.isActive ? 'Active' : 'Inactive'}</span></p>
+											<p className="text-gray-700"><span className="font-medium">User ID:</span> {user.userId}</p>
+											<p className="text-gray-700">
+												<span className="font-medium">Email:</span>{' '}
+												{editMode ? (
+													<input
+														type="email"
+														name="email"
+														value={editFields.email}
+														onChange={handleEditChange}
+														className="border rounded px-2 py-1"
+														disabled={updating}
+													/>
+												) : user.email}
+											</p>
+											<p className="text-gray-700"><span className="font-medium">Role:</span> {user.role}</p>
+											<p className="text-gray-700">
+												<span className="font-medium">Phone:</span>{' '}
+												{editMode ? (
+													<input
+														type="text"
+														name="phone"
+														value={editFields.phone}
+														onChange={handleEditChange}
+														className="border rounded px-2 py-1"
+														disabled={updating}
+													/>
+												) : user.phone}
+											</p>
+											<p className="text-gray-700"><span className="font-medium">Status:</span> <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${user.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>{user.isActive ? 'Active' : 'Inactive'}</span></p>
 							<button
 								onClick={handleToggleActive}
 								disabled={updating}
@@ -103,13 +260,101 @@ const UserDetails = () => {
 								{updating ? 'Updating...' : user.isActive ? 'Deactivate User' : 'Activate User'}
 							</button>
 						</div>
-						<div>
-							<p className="text-gray-700"><span className="font-medium">First Name:</span> {user.profile?.firstName}</p>
-							<p className="text-gray-700"><span className="font-medium">Last Name:</span> {user.profile?.lastName}</p>
-							<p className="text-gray-700"><span className="font-medium">Address:</span> {user.profile?.address}</p>
-							{/* Add more fields as needed */}
-						</div>
+									<div>
+										<p className="text-gray-700">
+											<span className="font-medium">First Name:</span>{' '}
+											{editMode ? (
+												<input
+													type="text"
+													name="profile.firstName"
+													value={editFields.profile.firstName}
+													onChange={handleEditChange}
+													className="border rounded px-2 py-1"
+													disabled={updating}
+												/>
+											) : user.profile?.firstName}
+										</p>
+										<p className="text-gray-700">
+											<span className="font-medium">Last Name:</span>{' '}
+											{editMode ? (
+												<input
+													type="text"
+													name="profile.lastName"
+													value={editFields.profile.lastName}
+													onChange={handleEditChange}
+													className="border rounded px-2 py-1"
+													disabled={updating}
+												/>
+											) : user.profile?.lastName}
+										</p>
+										<p className="text-gray-700">
+											<span className="font-medium">Address:</span>{' '}
+											{editMode ? (
+												<input
+													type="text"
+													name="profile.address"
+													value={editFields.profile.address}
+													onChange={handleEditChange}
+													className="border rounded px-2 py-1"
+													disabled={updating}
+												/>
+											) : user.profile?.address}
+										</p>
+										{editMode ? (
+											<>
+												<p className="text-gray-700">
+													<span className="font-medium">Date of Birth:</span>{' '}
+													<input
+														type="date"
+														name="profile.dob"
+														value={editFields.profile.dob ? editFields.profile.dob.substring(0, 10) : ''}
+														onChange={handleEditChange}
+														className="border rounded px-2 py-1"
+														disabled={updating}
+													/>
+												</p>
+												<p className="text-gray-700">
+													<span className="font-medium">Gender:</span>{' '}
+													<select
+														name="profile.gender"
+														value={editFields.profile.gender}
+														onChange={handleEditChange}
+														className="border rounded px-2 py-1"
+														disabled={updating}
+													>
+														<option value="">Select</option>
+														<option value="Male">Male</option>
+														<option value="Female">Female</option>
+													</select>
+												</p>
+											</>
+										) : (
+											<>
+												<p className="text-gray-700"><span className="font-medium">Date of Birth:</span> {user.profile?.dob ? new Date(user.profile.dob).toLocaleDateString() : ''}</p>
+												<p className="text-gray-700"><span className="font-medium">Gender:</span> {user.profile?.gender}</p>
+											</>
+										)}
+										{/* Add more fields as needed */}
+									</div>
 					</div>
+					{editMode && (
+						<div className="mt-6 flex gap-2">
+							<button
+								onClick={handleSaveEdit}
+								disabled={updating}
+								className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-400"
+							>
+								{updating ? 'Saving...' : 'Save'}
+							</button>
+							<button
+								onClick={handleCancelEdit}
+								disabled={updating}
+								className="px-4 py-2 bg-gray-400 hover:bg-gray-500 text-white rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300"
+							>
+								Cancel
+							</button>
+						</div>
+					)}
 				</div>
 			</main>
 		</div>
