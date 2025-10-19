@@ -88,52 +88,63 @@ const OneComplaints = () => {
 		);
 	}
 
-	return (
-		<div className="min-h-screen bg-neutral-100">
-			<header className="bg-white shadow">
-				<div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-					<div className="flex items-center justify-between py-6">
-						<h1 className="text-2xl font-semibold text-gray-900">Complaint Details</h1>
-						<button
-							onClick={() => navigate(-1)}
-							className="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-						>
-							Back
-						</button>
-						<button
-							onClick={handleDelete}
-							disabled={deleting}
-							className={`ml-4 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-400 ${deleting ? "opacity-50 cursor-not-allowed" : ""}`}
-						>
-							{deleting ? "Deleting..." : "Delete"}
-						</button>
-					</div>
-				</div>
-			</header>
-			<main className="max-w-3xl mx-auto py-6 sm:px-6 lg:px-8">
-				<div className="bg-white rounded-lg shadow p-6">
-					<h2 className="text-xl font-semibold text-gray-900 mb-4">Details</h2>
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-						<div>
-							<span className="font-medium text-gray-700">Name:</span> {complaint.name}
-						</div>
-						<div>
-							<span className="font-medium text-gray-700">Role:</span> {complaint.role}
-						</div>
-						<div>
-							<span className="font-medium text-gray-700">Topic:</span> {complaint.reason}
-						</div>
-						<div>
-							<span className="font-medium text-gray-700">Description:</span> {complaint.description}
-						</div>
-						<div>
-							<span className="font-medium text-gray-700">Created At:</span> {new Date(complaint.createdAt).toLocaleString()}
+		return (
+			<div className="min-h-screen bg-neutral-100">
+				<header className="bg-white shadow">
+					<div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+						<div className="flex items-center justify-between py-6">
+							<h1 className="text-2xl font-semibold text-gray-900">Complaint Details</h1>
+							<button
+								onClick={() => navigate(-1)}
+								className="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+							>
+								Back
+							</button>
+							<button
+								onClick={handleDelete}
+								disabled={deleting}
+								className={`ml-4 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-400 ${deleting ? "opacity-50 cursor-not-allowed" : ""}`}
+							>
+								{deleting ? "Deleting..." : "Delete"}
+							</button>
 						</div>
 					</div>
-				</div>
-			</main>
-		</div>
-	);
+				</header>
+				<main className="max-w-3xl mx-auto py-6 sm:px-6 lg:px-8">
+					<div className="bg-white rounded-lg shadow p-6">
+						<h2 className="text-xl font-semibold text-gray-900 mb-4">Details</h2>
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+							<div>
+								<span className="font-medium text-gray-700">Name:</span> {complaint.name}
+							</div>
+							<div>
+								<span className="font-medium text-gray-700">Role:</span> {complaint.role}
+							</div>
+							<div>
+								<span className="font-medium text-gray-700">Topic:</span> {complaint.reason}
+							</div>
+							<div>
+								<span className="font-medium text-gray-700">Description:</span> {complaint.description}
+							</div>
+							<div>
+								<span className="font-medium text-gray-700">Created At:</span> {new Date(complaint.createdAt).toLocaleString()}
+							</div>
+										{complaint.picture && (
+											<div className="col-span-2 mt-4">
+												<span className="font-medium text-gray-700">Picture:</span>
+												<br />
+																<img
+																	  src={`http://localhost:5555/uploads/${complaint.picture.replace(/^uploads[\\\/]/, '').replace(/\\/g, '/')}`}
+																	alt="Complaint"
+																	style={{ maxWidth: '300px', maxHeight: '300px', borderRadius: '8px', marginTop: '8px' }}
+																/>
+											</div>
+										)}
+						</div>
+					</div>
+				</main>
+			</div>
+		);
 };
 
 export default OneComplaints;
