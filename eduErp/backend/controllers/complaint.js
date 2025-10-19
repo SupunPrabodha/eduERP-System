@@ -1,3 +1,16 @@
+
+// Delete a complaint by complaintId
+export const deleteComplaint = async (req, res) => {
+	try {
+		const deleted = await Complaint.findOneAndDelete({ complaintId: req.params.complaintId });
+		if (!deleted) {
+			return res.status(404).json({ message: 'Complaint not found' });
+		}
+		res.json({ message: 'Complaint deleted successfully' });
+	} catch (error) {
+		res.status(500).json({ message: 'Error deleting complaint', error });
+	}
+};
 import Complaint from '../models/complaintsModel.js';
 import { v4 as uuidv4 } from 'uuid';
 
