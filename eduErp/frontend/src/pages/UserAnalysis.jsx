@@ -60,7 +60,6 @@ const UserAnalysis = () => {
 
   return (
     <div className="user-analysis-page">
-      <h1>User Analysis</h1>
       {loading ? (
         <p>Loading...</p>
       ) : error ? (
@@ -73,6 +72,7 @@ const UserAnalysis = () => {
             <li>Secondary (Grade 6-11): {studentGroups.secondary}</li>
             <li>Advanced Level (Grade 12-13): {studentGroups.advanced}</li>
           </ul>
+          <p><strong>Total Students:</strong> {students.length}</p>
           <h2>Teacher Analysis</h2>
           <p>Total Teachers: {teacherCount}</p>
         </div>
