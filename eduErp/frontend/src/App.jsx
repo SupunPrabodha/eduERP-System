@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
+import AddCompaint from "./pages/AddCompaint";
 import PayrollDetails from "./components/PayrollDetails.jsx";
 import PayrollDashboard from "./components/PayrollDashboard.jsx";
 import Home from "./pages/Home";
@@ -76,6 +77,9 @@ const App = () => {
       <Route path="/user-details/:userId" element={<AdminRoute> <UserDetails /> </AdminRoute>} />
       <Route path="/admin/inventory/add" element={<AdminRoute> <AddInventory /> </AdminRoute>} />
       <Route path="/admin/inventory" element={<AdminRoute> <GetAllInventory /> </AdminRoute>} />
+
+      {/* Complaint Form route */}
+      <Route path="/complaint/add" element={<ProtectedRoute> <AddCompaint /> </ProtectedRoute>} />
 
       {/* Teacher Dashboard route */}
       <Route path="/teacher-dashboard" element={<ProtectedRoute> <TeacherDashboard /> </ProtectedRoute>} />

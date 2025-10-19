@@ -155,7 +155,7 @@ const TeacherDashboard = () => {
                 icon={<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7h18M6 7v10M18 7v10M3 12h18" />}
               />
               <ActionCard
-                onClick={() => navigate("/complaints")}
+                onClick={() => navigate("/complaint/add")}
                 title="Complaints"
                 subtitle="Submit complaints"
                 iconColor="text-orange-600"
