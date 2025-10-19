@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import authService from "../services/authService";
 
 const AddCompaint = () => {
@@ -6,6 +7,7 @@ const AddCompaint = () => {
   const [description, setDescription] = useState("");
   const [picture, setPicture] = useState(null);
   const [preview, setPreview] = useState(null);
+  const navigate = useNavigate();
 
   // Get logged-in user info
   const currentUser = authService.getCurrentUser();
@@ -42,16 +44,21 @@ const AddCompaint = () => {
         body: formData,
       });
       if (response.ok) {
-        alert("Complaint submitted!");
-        setReason("");
-        setDescription("");
-        setPicture(null);
-        setPreview(null);
+        alert("Complaint submitted successfully!");
+        setTimeout(() => {
+          navigate("/teacher-dashboard");
+        }, 1000);
       } else {
         alert("Failed to submit complaint.");
+        setTimeout(() => {
+          navigate("/teacher-dashboard");
+        }, 1000);
       }
     } catch (error) {
       alert("Error submitting complaint.");
+      setTimeout(() => {
+        navigate("/teacher-dashboard");
+      }, 1000);
     }
   };
 
