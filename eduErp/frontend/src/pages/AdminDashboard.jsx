@@ -200,7 +200,11 @@ const AdminDashboard = () => {
 
                   <MutedCard title="Reports" subtitle="View system reports (coming soon)" />
                   <MutedCard title="User Analytics" subtitle="Track usage & trends (coming soon)" />
-                  <MutedCard title="Complaints" subtitle="View Complaints (coming soon)" />
+                  <SimpleActionCard
+                    onClick={() => navigate("/complaints")}
+                    title="Complaints"
+                    subtitle="View all complaints"
+                  />
                 </>
               )}
 
