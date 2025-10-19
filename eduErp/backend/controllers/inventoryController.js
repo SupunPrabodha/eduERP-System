@@ -70,6 +70,26 @@ export const updateInventoryItem = async (req, res) => {
   }
 };
 
+// Add stock to inventory item
+export const addStockToInventoryItem = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { quantity } = req.body;
+    if (!quantity || isNaN(quantity) || quantity <= 0) {
+      return res.status(400).json({ error: 'Invalid quantity' });
+    }
+    const item = await Inventory.findById(id);
+    if (!item) {
+      return res.status(404).json({ error: 'Inventory item not found' });
+    }
+    item.quantity += quantity;
+    await item.save();
+    res.json({ quantity: item.quantity });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to add stock' });
+  }
+};
+
 // Delete inventory item
 export const deleteInventoryItem = async (req, res) => {
   try {

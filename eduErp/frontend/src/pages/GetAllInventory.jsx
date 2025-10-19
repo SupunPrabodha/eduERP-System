@@ -20,6 +20,31 @@ const GetAllInventory = () => {
     fetchItems();
   }, []);
 
+  const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this item?')) return;
+    try {
+      await axios.delete(`/api/inventory/${id}`);
+      setItems(prev => prev.filter(item => item._id !== id));
+    } catch (err) {
+      alert('Failed to delete item');
+    }
+  };
+
+  const handleAddStock = async (id) => {
+    const qty = window.prompt('Enter quantity to add:', '1');
+    const addQty = parseInt(qty, 10);
+    if (isNaN(addQty) || addQty <= 0) {
+      alert('Please enter a valid positive number.');
+      return;
+    }
+    try {
+      const response = await axios.put(`/api/inventory/${id}/add-stock`, { quantity: addQty });
+      setItems(prev => prev.map(item => item._id === id ? { ...item, quantity: response.data.quantity } : item));
+    } catch (err) {
+      alert('Failed to add stock');
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -73,6 +98,7 @@ const GetAllInventory = () => {
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
@@ -91,6 +117,20 @@ const GetAllInventory = () => {
                           }`}>
                             {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
                           </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm flex gap-2">
+                          <button
+                            className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded shadow text-xs font-semibold"
+                            onClick={() => handleDelete(item._id)}
+                          >
+                            Delete
+                          </button>
+                          <button
+                            className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded shadow text-xs font-semibold"
+                            onClick={() => handleAddStock(item._id)}
+                          >
+                            Add Stock
+                          </button>
                         </td>
                       </tr>
                     ))}
